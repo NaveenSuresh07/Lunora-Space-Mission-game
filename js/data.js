@@ -1,6 +1,6 @@
 /**
- * Lunora: Mission Architect
- * Game Data: Missions, Vehicles, Components, and NASA Reference Facts
+ * Lunora: Mission Control Arcade (v2) - Game Data & Astrodynamics Models
+ * All numeric values represent educational aerospace parameters.
  */
 
 export const MISSIONS = [
@@ -8,24 +8,18 @@ export const MISSIONS = [
     id: 1,
     key: 'first-light',
     name: 'First Light',
-    subtitle: 'Earth Observation Satellite',
+    subtitle: 'Low Earth Orbit Earth Observation',
     target: 'leo',
-    targetName: 'Low Earth Orbit (700 km)',
     budget: 60,
+    sun: 1.0,
     days: 30,
-    sunPower: 1.0,
-    tutorial: true,
-    desc: 'Deploy Lunora-1 into Low Earth Orbit to capture high-resolution multispectral imagery of Earth’s climate zones.',
-    objective: 'Launch a functional satellite into LEO and downlink Earth observation data.',
-    bonusGoal: 'Return at least 2 distinct science types',
-    nasaFact: 'NASA’s Landsat program has continuously observed Earth’s land surfaces since 1972, providing crucial data for agriculture, water management, and climate science.',
-    recommended: {
-      vehicle: 'sparrow',
-      bus: 'small',
-      power: 'solar_s',
-      instruments: ['cam', 'mag'],
-      comms: 'med'
-    }
+    rank: 'Cadet',
+    cml: 1,
+    objective: 'Photograph Earth from orbit and stream multispectral imagery',
+    real: 'CubeSat 101 / Planet Labs & NASA SmallSats',
+    discovery: 'High-resolution multispectral imagery maps river basins, crop yields, and coastal delta dynamics.',
+    bonusGoal: 'Complete mission with >$15M budget reserve',
+    nasaFact: 'NASA’s CubeSat 101 standard paved the way for compact, low-cost satellites using standardized 10×10×10 cm form factors.'
   },
   {
     id: 2,
@@ -33,21 +27,16 @@ export const MISSIONS = [
     name: 'Lunora Orbiter',
     subtitle: 'Lunar Polar Reconnaissance',
     target: 'moon',
-    targetName: 'Lunar Polar Orbit',
     budget: 120,
+    sun: 1.0,
     days: 90,
-    sunPower: 1.0,
-    desc: 'Enter a low polar orbit around the Moon to map surface minerals, topography, and permanently shadowed polar craters.',
-    objective: 'Reach Lunar orbit with sufficient communications and power to map topography and surface minerals.',
-    bonusGoal: 'Complete mission under budget by >$15M',
-    nasaFact: 'NASA’s Lunar Reconnaissance Orbiter (LRO) has been orbiting the Moon since 2009, creating the most detailed 3D topographic map of any celestial body to date.',
-    recommended: {
-      vehicle: 'falcon',
-      bus: 'medium',
-      power: 'solar_s',
-      instruments: ['cam', 'spec'],
-      comms: 'med'
-    }
+    rank: 'Analyst',
+    cml: 2,
+    objective: 'Map the Moon and identify permanently shadowed crater water-ice candidates',
+    real: 'Lunar Reconnaissance Orbiter (LRO)',
+    discovery: 'Hydrogen emission spikes confirm volatile water-ice deposits inside Shackleton Crater rim.',
+    bonusGoal: 'Equip both Spectrometer and Radar',
+    nasaFact: 'LRO has collected more data than all other planetary missions combined, creating unprecedented 3D elevation maps of the Moon.'
   },
   {
     id: 3,
@@ -55,45 +44,35 @@ export const MISSIONS = [
     name: 'Red Dust Rover',
     subtitle: 'Mars Surface Astrobiology',
     target: 'mars',
-    targetName: 'Mars Jezero Plains',
     budget: 260,
+    sun: 0.43, // 1 / (1.52)^2
     days: 180,
-    sunPower: 0.43, // 1 / (1.52)^2
+    rank: 'Engineer',
+    cml: 3,
     landing: true,
-    desc: 'Perform interplanetary transit to Mars, survive atmospheric entry, and deploy a surface rover to search for ancient biosignatures.',
-    objective: 'Deploy a surface lander/rover on Mars with autonomous communications and dust-resistant power.',
-    bonusGoal: 'Equip both Sample Arm and Subsurface Radar',
-    nasaFact: 'Because sunlight at Mars is only 43% of Earth’s intensity, and dust storms can block over 99% of sunlight, NASA rovers like Curiosity and Perseverance use nuclear RTGs for steady power.',
-    recommended: {
-      vehicle: 'atlas',
-      bus: 'heavy',
-      power: 'rtg_dual',
-      instruments: ['cam', 'radar', 'arm'],
-      comms: 'med'
-    }
+    objective: 'Survive Mars entry and deploy a surface rover to sample sedimentary rock',
+    real: 'Mars Curiosity & Perseverance Rovers',
+    discovery: 'Analysis of lacustrine mudstone confirms organic carbon compounds and ancient habitable aquatic chemistry.',
+    bonusGoal: 'Survive interplanetary cruise with >80% Mission Integrity',
+    nasaFact: 'Mars receives less than half the sunlight of Earth. NASA’s Curiosity and Perseverance rovers rely on nuclear MMRTGs for steady electricity.'
   },
   {
     id: 4,
-    key: 'comet-chaser',
-    name: 'Comet Chaser',
-    subtitle: 'Outer Solar System Sample Return',
+    key: 'deep-eye',
+    name: 'Deep Eye',
+    subtitle: 'Deep Space Infrared Observatory',
     target: 'deep',
-    targetName: 'Jupiter Trojan Asteroid (5.2 AU)',
-    budget: 320,
+    budget: 300,
+    sun: 0.15, // Outer solar system / L2 point derating
     days: 400,
-    sunPower: 0.037, // 1 / (5.2)^2 ≈ 3.7%
+    rank: 'Architect',
+    cml: 4,
     landing: false,
-    desc: 'Venture beyond the Asteroid Belt to rendezvous with a pristine primordial Trojan asteroid and analyze its volatile organic chemistry.',
-    objective: 'Navigate deep space past 5 AU, maintain long-distance DSN telemetry, and return comprehensive asteroid science.',
-    bonusGoal: 'Achieve >80 Science points using high-gain comms',
-    nasaFact: 'Radio signals traveling between Earth and Jupiter take up to 50 minutes one-way. Spacecraft like NASA’s Lucy and Juno must execute maneuvers autonomously.',
-    recommended: {
-      vehicle: 'atlas',
-      bus: 'medium',
-      power: 'rtg_dual',
-      instruments: ['cam', 'spec', 'radar', 'mag'],
-      comms: 'high'
-    }
+    objective: 'Deploy a deep-space telescope to characterize exoplanet atmospheres',
+    real: 'James Webb Space Telescope (JWST) & Roman',
+    discovery: 'Transmission spectroscopy detects methane and water vapor signatures in the atmosphere of an alien super-Earth.',
+    bonusGoal: 'Return >90% of all telemetry data via High-Gain dish',
+    nasaFact: 'JWST orbits the Sun-Earth L2 Lagrange point 1.5 million kilometers away, chilled to -233°C to detect primordial infrared light.'
   }
 ];
 
@@ -101,260 +80,517 @@ export const VEHICLES = [
   {
     id: 'sparrow',
     name: 'Sparrow-1',
-    type: 'Light Booster',
     cost: 12,
-    payload: 350,
+    payload: 300,
+    corridor: 0.55,
     reliability: 0.90,
     reach: ['leo'],
-    tag: 'Budget Scout',
-    desc: 'Cost-effective two-stage small launcher. Strictly limited to Low Earth Orbit payloads.',
-    tooltip: 'Low cost ($12M) with 350 kg capacity. Perfect for small Earth satellites, but cannot reach the Moon or deep space.'
+    thrust: 420,
+    tag: 'Budget Booster',
+    desc: 'Light two-stage rocket. Economical, but strictly confined to Low Earth Orbit.'
   },
   {
-    id: 'falcon',
+    id: 'kestrel',
     name: 'Kestrel-5',
-    type: 'Medium Workhorse',
     cost: 40,
-    payload: 1600,
-    reliability: 0.95,
+    payload: 1500,
+    corridor: 0.75,
+    reliability: 0.94,
     reach: ['leo', 'moon'],
-    tag: 'Proven Reliable',
-    desc: 'Proven medium-lift orbital launcher. Delivers probes to LEO and trans-lunar injection trajectories.',
-    tooltip: 'Workhorse booster with 1,600 kg capacity and 95% reliability. Reaches Earth orbit and Lunar trajectories.'
+    thrust: 2100,
+    tag: 'Proven Workhorse',
+    desc: 'Reliable medium-lift booster. Capable of reaching Earth orbit and trans-lunar injection.'
   },
   {
-    id: 'atlas',
-    name: 'Titan-X Heavy',
-    type: 'Super Heavy Lift',
+    id: 'titan',
+    name: 'Titan-X',
     cost: 95,
-    payload: 5000,
-    reliability: 0.97,
+    payload: 4500,
+    corridor: 1.0,
+    reliability: 0.96,
     reach: ['leo', 'moon', 'mars', 'deep'],
+    thrust: 6500,
     tag: 'Interplanetary Flagship',
-    desc: 'Heavy lift vehicle with high-energy cryogenic upper stage. Sends massive probes anywhere in the solar system.',
-    tooltip: 'Flagship launcher with 5,000 kg capacity and 97% reliability. Required for Mars landers and deep-space missions.'
+    desc: 'Super-heavy booster with cryogenic upper stage. Sends massive payloads to Mars and deep space.'
   }
 ];
 
-export const BUSES = [
-  {
-    id: 'small',
-    name: 'Micro-Bus',
-    cost: 6,
-    mass: 35,
-    houseWatts: 15,
-    maxPayload: 60,
-    tag: 'Lightweight',
-    hasLander: false,
-    desc: 'Compact aluminum chassis. Ultra-low structural mass, but limits payload to 60 kg.',
-    tooltip: 'Weighs only 35 kg and draws 15W. Great for tight budgets, but cannot carry heavy radar or sample arms.'
-  },
-  {
-    id: 'medium',
-    name: 'Standard Orbiter Bus',
-    cost: 16,
-    mass: 100,
-    houseWatts: 35,
-    maxPayload: 160,
-    tag: 'Versatile',
-    hasLander: false,
-    desc: 'Balanced 3-axis stabilized bus with reaction wheels and multi-panel gantry mountings.',
-    tooltip: '100 kg platform capable of supporting up to 160 kg of instruments. Standard for lunar and orbital probes.'
-  },
-  {
-    id: 'heavy',
-    name: 'Explorer Lander Bus',
-    cost: 35,
-    mass: 220,
-    houseWatts: 60,
-    maxPayload: 320,
-    tag: 'Heavy Lander',
-    hasLander: true,
-    desc: 'Reinforced aeroshell, thermal heat shield, and landing thrusters. Required for planetary surface landings.',
-    tooltip: 'Equipped with retro-thrusters and landing gear. Heavy (220 kg), but essential for landing on Mars.'
-  }
-];
-
-export const POWER = [
-  {
-    id: 'battery',
-    name: 'Li-Ion Battery Only',
-    cost: 2,
-    mass: 25,
-    watts: 45,
-    tag: 'Temporary',
-    desc: 'Non-rechargeable high-density chemical battery. Inexpensive, but expires rapidly.',
-    tooltip: 'Provides fixed 45W. Cannot recharge from the Sun. Suitable only for short LEO technology demonstrations.',
-    note: 'Expires quickly. Suitable only for short-duration LEO sprints.'
-  },
-  {
-    id: 'solar_s',
-    name: 'Compact Solar Array (1.5 m²)',
-    cost: 7,
-    mass: 30,
-    watts: 140,
-    tag: 'Inner Solar System',
-    desc: 'Deployable rigid photovoltaic wings. Generates strong power at Earth and Moon.',
-    tooltip: 'Produces 140W at 1 AU. Output drops by inverse-square law at Mars (~60W) and Jupiter (~5W).'
-  },
-  {
-    id: 'solar_l',
-    name: 'Deployable Solar Wings (6 m²)',
-    cost: 16,
-    mass: 85,
-    watts: 380,
-    tag: 'High Output',
-    desc: 'Dual tracking solar arrays with articulated sun-sensors. Sustains power at Mars distances.',
-    tooltip: 'Produces 380W at Earth, and ~160W at Mars. Heavy (85 kg), but avoids costly nuclear systems.'
-  },
-  {
-    id: 'rtg',
-    name: 'MMRTG Nuclear Generator (150W)',
-    cost: 38,
-    mass: 55,
-    watts: 150,
-    tag: 'Deep Space RTG',
-    desc: 'Radioisotope Thermoelectric Generator using Plutonium-238 decay heat. Continuous invariant wattage.',
-    tooltip: 'Produces steady 150W anywhere—inside planetary shadows, dust storms, or 5+ AU deep space.',
-    note: 'Constant output invariant to distance or day/night shadows.'
-  },
-  {
-    id: 'rtg_dual',
-    name: 'Dual MMRTG System (280W)',
-    cost: 52,
-    mass: 85,
-    watts: 280,
-    tag: 'High-Power Nuclear',
-    desc: 'Twin Plutonium-238 nuclear generators. Sustains heavy radar sounders and surface drill arms simultaneously in deep space.',
-    tooltip: 'Steady 280W output anywhere. Sustains heavy landers and outer-planet radar instruments.',
-    note: 'Constant output invariant to distance or day/night shadows.'
-  }
-];
-
-export const INSTRUMENTS = [
-  {
-    id: 'cam',
-    name: 'Multispectral Camera',
-    cost: 6,
-    mass: 15,
-    watts: 25,
-    dataMbd: 800,
-    science: 15,
-    tag: 'Imaging',
-    desc: 'High-resolution optical telescope for terrain topography, geology, and landing site mapping.',
-    tooltip: 'Returns 15 Science. Generates 800 Mb/day of data. High scientific value with moderate power draw.'
-  },
-  {
-    id: 'spec',
-    name: 'Infrared Spectrometer',
-    cost: 14,
-    mass: 28,
-    watts: 45,
-    dataMbd: 350,
-    science: 25,
-    tag: 'Mineralogy',
-    desc: 'Analyzes light absorption spectra to identify surface minerals, hydrated salts, and atmospheric gases.',
-    tooltip: 'Returns 25 Science. Efficient data generation (350 Mb/day). Key for locating water ice and organic compounds.'
-  },
-  {
-    id: 'radar',
-    name: 'Subsurface Sounding Radar',
-    cost: 20,
-    mass: 50,
-    watts: 85,
-    dataMbd: 600,
-    science: 35,
-    tag: 'Deep Probing',
-    desc: 'Transmits ground-penetrating radar pulses to map underground aquifers, ice sheets, and lava tubes.',
-    tooltip: 'Returns 35 Science. Draws 85W of electrical power and weighs 50 kg. High reward for well-powered craft.'
-  },
-  {
-    id: 'mag',
-    name: 'Fluxgate Magnetometer Boom',
-    cost: 5,
-    mass: 8,
-    watts: 10,
-    dataMbd: 40,
-    science: 12,
-    tag: 'Fields & Particles',
-    desc: 'Deployable 2-meter carbon fiber boom that measures crustal magnetic fields and solar wind interactions.',
-    tooltip: 'Returns 12 Science for just 8 kg and 10W. Tiny data output (40 Mb/day). Great budget-friendly science adder.'
-  },
-  {
-    id: 'arm',
-    name: 'Robotic Sample Arm & Drill',
-    cost: 28,
-    mass: 75,
-    watts: 50,
-    dataMbd: 80,
-    science: 45,
-    tag: 'Surface Sample',
-    needsLander: true,
-    desc: 'Articulated robotic arm with core drill and onboard sample chemistry chamber. Requires a Lander Bus.',
-    tooltip: 'Returns a massive 45 Science. Requires a Lander Bus to operate on a planetary surface.'
-  }
-];
-
-export const COMMS = [
-  {
-    id: 'low',
-    name: 'Low-Gain Patch Antenna',
-    cost: 4,
-    mass: 6,
-    watts: 10,
-    downMbd: 300,
-    tag: 'Omnidirectional',
-    desc: 'Broad-beam antenna with zero moving parts. Reliable in LEO, but throughput chokes at interplanetary distances.',
-    tooltip: 'Downlinks up to 300 Mb/day. Inexpensive and lightweight. Perfect for Earth orbit, but weak past the Moon.'
-  },
-  {
-    id: 'med',
-    name: 'Medium Parabolic Dish (0.8m)',
-    cost: 12,
-    mass: 22,
-    watts: 35,
-    downMbd: 1500,
-    tag: 'Steerable Dish',
-    desc: 'Motorized parabolic reflector dish. Delivers crisp gigabit downlinks from the Moon and moderate rates from Mars.',
-    tooltip: 'Downlinks up to 1,500 Mb/day. Standard for lunar orbiters and balanced Mars science packages.'
-  },
-  {
-    id: 'high',
-    name: 'High-Gain Deep Space Antenna (2.4m)',
-    cost: 24,
-    mass: 48,
-    watts: 75,
-    downMbd: 6000,
-    tag: 'Deep Space DSN',
-    desc: 'Large deployable high-frequency dish. Pairs with Earth’s 70-meter Deep Space Network dishes for massive telemetry.',
-    tooltip: 'Downlinks up to 6,000 Mb/day. Draws 75W and weighs 48 kg. Essential for transmitting high-res camera and radar data from Jupiter.'
-  }
-];
-
-export const ARIA_HINTS = {
-  step1: [
-    "Welcome to Mission Control! I am ARIA, your flight systems advisor.",
-    "Review your mission target, available budget, and scientific objectives before selecting hardware.",
-    "Remember: every gram of payload requires rocket fuel to reach orbit."
+export const PARTS = {
+  power: [
+    {
+      id: 'bat',
+      category: 'power',
+      name: 'Battery Only',
+      cost: 2,
+      mass: 20,
+      watts: 40,
+      size: [1, 1],
+      sunDependent: false,
+      icon: '🔋',
+      desc: 'Non-rechargeable chemical battery. Constant 40W. Inexpensive, but limited lifetime.'
+    },
+    {
+      id: 'sol_s',
+      category: 'power',
+      name: 'Small Solar Array',
+      cost: 6,
+      mass: 30,
+      watts: 120,
+      size: [2, 1],
+      sunDependent: true,
+      icon: '☀️',
+      desc: 'Produces 120W at Earth. Yield drops with distance by inverse-square law.'
+    },
+    {
+      id: 'sol_l',
+      category: 'power',
+      name: 'Large Solar Wings',
+      cost: 12,
+      mass: 70,
+      watts: 300,
+      size: [2, 2],
+      sunDependent: true,
+      icon: '🛰️',
+      desc: 'Generates 300W at Earth. High mass, but provides strong power across inner solar system.'
+    },
+    {
+      id: 'rtg',
+      category: 'power',
+      name: 'MMRTG Nuclear Generator',
+      cost: 30,
+      mass: 55,
+      watts: 150,
+      size: [1, 2],
+      sunDependent: false,
+      icon: '☢️',
+      desc: 'Plutonium-238 radioisotope generator. Continuous 150W regardless of distance or planetary eclipse.'
+    }
   ],
-  step2: [
-    "Your launch vehicle must have enough payload capacity to lift the entire spacecraft wet mass.",
-    "Check the booster's target reach: a Sparrow cannot reach the Moon or Mars, no matter how light your probe is!",
-    "Cheaper rockets save budget for instruments, but ensure you don't exceed payload limits."
+  instruments: [
+    {
+      id: 'cam',
+      category: 'instruments',
+      name: 'Multispectral Camera',
+      cost: 5,
+      mass: 15,
+      watts: 30,
+      data: 800,
+      science: 10,
+      size: [1, 1],
+      tags: ['imaging'],
+      icon: '📷',
+      desc: 'High-res visible & infrared optics for surface mapping.'
+    },
+    {
+      id: 'spec',
+      category: 'instruments',
+      name: 'Imaging Spectrometer',
+      cost: 12,
+      mass: 30,
+      watts: 50,
+      data: 300,
+      science: 25,
+      size: [1, 2],
+      tags: ['geology', 'atmosphere'],
+      icon: '🌈',
+      desc: 'Disperses light into spectra to determine rock mineralogy and atmospheric gases.'
+    },
+    {
+      id: 'radar',
+      category: 'instruments',
+      name: 'Subsurface Radar',
+      cost: 18,
+      mass: 45,
+      watts: 90,
+      data: 500,
+      science: 30,
+      size: [2, 2],
+      tags: ['geology'],
+      icon: '📡',
+      desc: 'Ground-penetrating radar pulses that detect subsurface aquifers and bedrock.'
+    },
+    {
+      id: 'mag',
+      category: 'instruments',
+      name: 'Magnetometer Boom',
+      cost: 6,
+      mass: 10,
+      watts: 10,
+      data: 20,
+      science: 12,
+      size: [1, 1],
+      tags: ['magnetic'],
+      icon: '🧲',
+      desc: 'Ultra-low power boom measuring crustal fields and solar wind interactions.'
+    },
+    {
+      id: 'arm',
+      category: 'instruments',
+      name: 'Robotic Sample Arm',
+      cost: 22,
+      mass: 60,
+      watts: 40,
+      data: 50,
+      science: 40,
+      size: [1, 2],
+      needs: 'landing',
+      tags: ['geology'],
+      icon: '🦾',
+      desc: 'Articulated core drill and soil scooper. Only usable on planetary surface missions.'
+    },
+    {
+      id: 'tele',
+      category: 'instruments',
+      name: 'Space Telescope',
+      cost: 35,
+      mass: 80,
+      watts: 60,
+      data: 900,
+      science: 45,
+      size: [2, 2],
+      tags: ['imaging'],
+      only: ['deep'],
+      icon: '🔭',
+      desc: 'Cryogenic infrared reflector for deep-space exoplanet astronomy.'
+    }
   ],
-  step3: [
-    "Match your power system to your destination. Solar power drops off with the square of distance from the Sun.",
-    "At Mars (1.52 AU), solar intensity drops to ~43%. At Jupiter (5.2 AU), it drops to under 4%!",
-    "Nuclear RTGs provide constant power regardless of distance or night-time shadow passes."
+  comms: [
+    {
+      id: 'low',
+      category: 'comms',
+      name: 'Low-Gain Patch',
+      cost: 3,
+      mass: 5,
+      watts: 10,
+      down: 200,
+      catch: 0.6,
+      size: [1, 1],
+      icon: '📶',
+      desc: 'Broad-beam antenna. Inexpensive (200 Mb/d), but small reception cone.'
+    },
+    {
+      id: 'med',
+      category: 'comms',
+      name: 'Medium Parabolic Dish',
+      cost: 9,
+      mass: 20,
+      watts: 35,
+      down: 1200,
+      catch: 1.0,
+      size: [2, 1],
+      icon: '📡',
+      desc: '0.8m steerable reflector. Delivers 1,200 Mb/d with standard reception.'
+    },
+    {
+      id: 'high',
+      category: 'comms',
+      name: 'High-Gain Deep Space Dish',
+      cost: 18,
+      mass: 40,
+      watts: 70,
+      down: 5000,
+      catch: 1.5,
+      size: [2, 2],
+      icon: '🛰️',
+      desc: '2.4m precision dish. Pairs with Earth’s 70m DSN dishes (5,000 Mb/d).'
+    }
   ],
-  step4: [
-    "Scientific instruments define your mission score. Select complementary sensors to unlock bonus objectives.",
-    "Watch your power budget: running spectrometers and ground radars simultaneously demands serious wattage.",
-    "The Robotic Sample Arm offers immense science return, but requires a Lander bus to touch down."
-  ],
-  step5: [
-    "Instruments that collect gigabytes of data are useless if your antenna cannot beam it home to Earth.",
-    "If your data generation exceeds your downlink rate, data is backlogged and lost, penalizing science points.",
-    "Balance transmitter power draw against your spacecraft's electrical generation."
+  extras: [
+    {
+      id: 'fuel',
+      category: 'extras',
+      name: 'Extra Fuel Tank',
+      cost: 8,
+      mass: 40,
+      size: [1, 2],
+      icon: '⛽',
+      desc: '+100 Propellant reserve. Widens insertion burn capture sweet spot.'
+    },
+    {
+      id: 'therm',
+      category: 'extras',
+      name: 'Thermal Shield',
+      cost: 7,
+      mass: 25,
+      size: [1, 1],
+      icon: '🛡️',
+      desc: 'Ablative thermal insulation. Halves solar flare and entry friction damage.'
+    },
+    {
+      id: 'store',
+      category: 'extras',
+      name: 'Data Storage Buffer',
+      cost: 6,
+      mass: 10,
+      size: [1, 1],
+      icon: '💾',
+      desc: '+1,500 Mb onboard telemetry storage during planetary blackout.'
+    }
   ]
 };
+
+// Flattened parts lookup
+export const ALL_PARTS = [
+  ...PARTS.power,
+  ...PARTS.instruments,
+  ...PARTS.comms,
+  ...PARTS.extras
+];
+
+export function getPartById(id) {
+  return ALL_PARTS.find(p => p.id === id) || null;
+}
+
+/**
+ * Calculates derived stats & feasibility checks for a given configuration
+ */
+export function computeStats(vehicle, placedParts = [], mission, difficulty = 'engineer') {
+  const baseBusMass = 25; // Base chassis structural mass
+  const baseHouseWatts = 15; // Avionics, ADCS, internal computer
+  const baseFuel = 100;
+  const baseBuffer = 1000;
+
+  // Difficulty Budget Multiplier
+  let budgetMultiplier = 1.0;
+  if (difficulty === 'cadet') budgetMultiplier = 1.40;
+  else if (difficulty === 'director') budgetMultiplier = 0.85;
+
+  const effectiveBudget = Math.round(mission.budget * budgetMultiplier);
+
+  // Sum parts
+  let partsCost = 0;
+  let partsMass = 0;
+  let wattsNeed = baseHouseWatts;
+  let wattsSupply = 0;
+  let extraFuel = 0;
+  let extraBuffer = 0;
+  let hasThermal = false;
+  let catchWidth = 0.6;
+  let downlinkRate = 200;
+  let dataProduced = 0;
+  let rawScience = 0;
+
+  placedParts.forEach(p => {
+    partsCost += p.cost;
+    partsMass += p.mass;
+
+    if (p.category === 'power') {
+      if (p.sunDependent) {
+        wattsSupply += Math.round(p.watts * mission.sun);
+      } else {
+        wattsSupply += p.watts;
+      }
+    } else {
+      wattsNeed += (p.watts || 0);
+    }
+
+    if (p.category === 'instruments') {
+      dataProduced += (p.data || 0);
+      rawScience += (p.science || 0);
+    }
+
+    if (p.category === 'comms') {
+      downlinkRate = p.down || 200;
+      catchWidth = p.catch || 0.6;
+    }
+
+    if (p.id === 'fuel') extraFuel += 100;
+    if (p.id === 'store') extraBuffer += 1500;
+    if (p.id === 'therm') hasThermal = true;
+  });
+
+  const vehicleCost = vehicle ? vehicle.cost : 0;
+  const totalCost = vehicleCost + partsCost;
+  const totalMass = baseBusMass + partsMass;
+  const totalFuel = baseFuel + extraFuel;
+  const totalBuffer = baseBuffer + extraBuffer;
+
+  // Acceleration / Handling in Launch & Cruise
+  const thrust = vehicle ? vehicle.thrust : 500;
+  const accel = Math.max(0.4, Math.min(2.0, (thrust / totalMass) * 0.15));
+
+  // Feasibility Checks
+  const reachOK = vehicle ? vehicle.reach.includes(mission.target) : false;
+  const massOK = vehicle ? totalMass <= vehicle.payload : false;
+  const budgetOK = totalCost <= effectiveBudget;
+  const powerOK = wattsSupply >= wattsNeed;
+
+  const hasInstruments = placedParts.some(p => p.category === 'instruments');
+  const hasPower = placedParts.some(p => p.category === 'power');
+  const hasComms = placedParts.some(p => p.category === 'comms');
+
+  // Compatibility Rules
+  const hasSampleArm = placedParts.some(p => p.id === 'arm');
+  const armOK = !hasSampleArm || !!mission.landing;
+
+  const hasTelescope = placedParts.some(p => p.id === 'tele');
+  const teleOK = !hasTelescope || mission.target === 'deep';
+
+  const blockers = [];
+  if (!vehicle) {
+    blockers.push('No launch vehicle selected.');
+  } else if (!reachOK) {
+    blockers.push(`${vehicle.name} cannot reach ${mission.target.toUpperCase()}. Select a larger booster.`);
+  }
+
+  if (vehicle && !massOK) {
+    blockers.push(`Mass (${totalMass} kg) exceeds ${vehicle.name} capacity (${vehicle.payload} kg).`);
+  }
+
+  if (!budgetOK) {
+    blockers.push(`Cost ($${totalCost}M) exceeds budget ($${effectiveBudget}M).`);
+  }
+
+  if (!hasPower) {
+    blockers.push('No electrical power source installed.');
+  } else if (!powerOK) {
+    blockers.push(`Power deficit: Generating ${wattsSupply}W < ${wattsNeed}W required at ${mission.target.toUpperCase()}.`);
+  }
+
+  if (!hasComms) {
+    blockers.push('No telecommunications antenna equipped.');
+  }
+
+  if (!hasInstruments) {
+    blockers.push('No scientific instruments installed.');
+  }
+
+  if (!armOK) {
+    blockers.push('Robotic Sample Arm requires a planetary surface landing mission.');
+  }
+
+  if (!teleOK) {
+    blockers.push('Space Telescope requires a Deep Space mission destination.');
+  }
+
+  const isLaunchReady = blockers.length === 0;
+
+  return {
+    vehicle,
+    parts: placedParts,
+    totalCost,
+    effectiveBudget,
+    totalMass,
+    payloadLimit: vehicle ? vehicle.payload : 0,
+    wattsSupply,
+    wattsNeed,
+    totalFuel,
+    totalBuffer,
+    catchWidth,
+    downlinkRate,
+    dataProduced,
+    rawScience,
+    hasThermal,
+    accel,
+    reachOK,
+    massOK,
+    budgetOK,
+    powerOK,
+    hasInstruments,
+    hasPower,
+    hasComms,
+    armOK,
+    teleOK,
+    isLaunchReady,
+    blockers
+  };
+}
+
+/**
+ * Auto-Build Generator: Creates an optimized, 100% legal loadout for any mission
+ */
+export function autoBuild(mission, difficulty = 'engineer') {
+  let vehicleId = 'sparrow';
+  const partIds = [];
+
+  if (mission.id === 1) {
+    // First Light: LEO, Budget $60M
+    vehicleId = 'sparrow'; // $12M
+    partIds.push('sol_s'); // $6M, 30kg, 120W
+    partIds.push('cam');   // $5M, 15kg, 30W, 10 sci
+    partIds.push('mag');   // $6M, 10kg, 10W, 12 sci
+    partIds.push('med');   // $9M, 20kg, 35W
+    // Total cost: 12 + 6 + 5 + 6 + 9 = $38M <= $60M (Bonus goal achieved!)
+  } else if (mission.id === 2) {
+    // Lunora Orbiter: Moon, Budget $120M
+    vehicleId = 'kestrel'; // $40M
+    partIds.push('sol_l');  // $12M, 70kg, 300W
+    partIds.push('spec');   // $12M, 30kg, 50W, 25 sci
+    partIds.push('radar');  // $18M, 45kg, 90W, 30 sci (Bonus goal: spec + radar!)
+    partIds.push('med');    // $9M, 20kg, 35W
+    partIds.push('fuel');   // $8M, 40kg (+100 fuel)
+    // Total cost: 40 + 12 + 12 + 18 + 9 + 8 = $99M <= $120M
+  } else if (mission.id === 3) {
+    // Red Dust Rover: Mars, Budget $260M
+    vehicleId = 'titan';   // $95M
+    partIds.push('rtg');    // $30M, 55kg, 150W steady
+    partIds.push('arm');    // $22M, 60kg, 40W, 40 sci (lander required)
+    partIds.push('cam');    // $5M, 15kg, 30W, 10 sci
+    partIds.push('therm');  // $7M, 25kg (50% heat resist)
+    partIds.push('med');    // $9M, 20kg, 35W
+    partIds.push('fuel');   // $8M, 40kg
+    // Total cost: 95 + 30 + 22 + 5 + 7 + 9 + 8 = $176M <= $260M
+  } else if (mission.id === 4) {
+    // Deep Eye: Deep Space, Budget $300M
+    vehicleId = 'titan';   // $95M
+    partIds.push('rtg');    // $30M, 55kg, 150W steady
+    partIds.push('tele');   // $35M, 80kg, 60W, 45 sci
+    partIds.push('high');   // $18M, 40kg, 70W (High-Gain dish for bonus goal!)
+    partIds.push('store');  // $6M, 10kg (+1500 buffer)
+    partIds.push('fuel');   // $8M, 40kg
+    // Total cost: 95 + 30 + 35 + 18 + 6 + 8 = $192M <= $300M
+  }
+
+  const vehicle = VEHICLES.find(v => v.id === vehicleId);
+  const parts = partIds.map(id => getPartById(id)).filter(Boolean);
+
+  // Position parts onto 6x4 bay grid
+  // Grid width: 6, height: 4
+  const placedParts = [];
+  const occupied = Array(4).fill(null).map(() => Array(6).fill(false));
+
+  function canPlace(r, c, w, h) {
+    if (r + h > 4 || c + w > 6) return false;
+    for (let i = 0; i < h; i++) {
+      for (let j = 0; j < w; j++) {
+        if (occupied[r + i][c + j]) return false;
+      }
+    }
+    return true;
+  }
+
+  function markOccupied(r, c, w, h) {
+    for (let i = 0; i < h; i++) {
+      for (let j = 0; j < w; j++) {
+        occupied[r + i][c + j] = true;
+      }
+    }
+  }
+
+  for (const part of parts) {
+    const [w, h] = part.size;
+    let placed = false;
+    for (let r = 0; r < 4 && !placed; r++) {
+      for (let c = 0; c < 6 && !placed; c++) {
+        if (canPlace(r, c, w, h)) {
+          markOccupied(r, c, w, h);
+          placedParts.push({
+            ...part,
+            gridX: c,
+            gridY: r
+          });
+          placed = true;
+        }
+      }
+    }
+    if (!placed) {
+      // Fallback
+      placedParts.push({ ...part, gridX: 0, gridY: 0 });
+    }
+  }
+
+  return {
+    vehicle,
+    placedParts
+  };
+}

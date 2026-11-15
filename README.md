@@ -1,121 +1,118 @@
-# Lunora: Mission Architect 🛰️
-### Interactive Space Mission Design & Systems Engineering Simulator
-**NASA Space Apps Challenge 2026** · *Space Mission Design Game*  
-**Live Application:** [https://naveensuresh07.github.io/Lunora-Space-Mission-game/](https://naveensuresh07.github.io/Lunora-Space-Mission-game/)  
+# Lunora: Mission Control Arcade 🛰️🕹️
+### 2D Aerospace Arcade & Systems Engineering Simulator · NASA Space Apps Challenge 2026
+
+**Live Game URL:** [https://naveensuresh07.github.io/Lunora-Space-Mission-game/](https://naveensuresh07.github.io/Lunora-Space-Mission-game/)  
 **GitHub Repository:** [https://github.com/NaveenSuresh07/Lunora-Space-Mission-game](https://github.com/NaveenSuresh07/Lunora-Space-Mission-game)
 
 [![Play Live](https://img.shields.io/badge/Play_Live-GitHub_Pages-00e436?style=for-the-badge&logo=github)](https://naveensuresh07.github.io/Lunora-Space-Mission-game/)
-[![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero_Build_Step-4dd0ff?style=for-the-badge)](#)
 [![Automated Tests](https://img.shields.io/badge/Tests-10%2F10_Passing-brightgreen?style=for-the-badge)](#)
+[![Zero Build Step](https://img.shields.io/badge/Build-Zero_Asset_Dependencies-4dd0ff?style=for-the-badge)](#)
 [![NASA Space Apps](https://img.shields.io/badge/NASA_Space_Apps-2026-blue?style=for-the-badge)](#)
 
 ---
 
 ## 🌌 Overview
 
-**Lunora: Mission Architect** is an accessible, educational space mission design simulator built for the NASA Space Apps Challenge 2026. 
+**Lunora: Mission Control Arcade** is an authentic 2D space mission engineering and arcade game built for the NASA Space Apps Challenge 2026.
 
-Players assume the role of NASA Systems Engineers designing real-world robotic exploratory spacecraft. Balancing competing constraints—**Launch Vehicle Lift Capacity**, **Mission Budget ($M)**, **Solar Irradiance Flux ($1/r^2$)**, and **Deep Space Network (DSN) Telemetry Bandwidth**—players architect probes to explore Earth orbit, the Moon, the surface of Mars, and primordial asteroids in the outer solar system.
+Unlike static quizzes or passive simulations, Lunora merges a tactile **spacecraft engineering workshop (Hangar)** with **four skill-based arcade stages**—one for each of NASA’s core mission segments:
+1. **Launch Segment (Ascent):** Throttle control, gravity-turn ascent corridor, Max-Q aerodynamic stress relief, and stage separation.
+2. **Space Segment (Cruise & Orbit Insertion):** Deep-space hazard navigation, subsystem power management in planetary shadows, and precision retro-burn orbital capture.
+3. **Ground Segment (Operations):** Top-down Earth Deep Space Network (DSN) tracking stations (Goldstone, Madrid, Canberra), occultation blackout buffer management, and telemetry packet capture.
+4. **User Segment (Science Delivery):** High-speed scientific data sorting into Imaging, Geology, Atmosphere, and Magnetic bins with combo chains to deliver breakthrough discoveries.
 
-Once a design passes all feasibility checks, players launch their spacecraft through an animated, watchable milestone flight sequence that evaluates ascent, orbital capture, entry/descent, and telemetry downlink.
-
----
-
-## 🎯 Key Features
-
-1. **Guided 5-Step Mission Architecture Wizard:**
-   - **Step 1: Mission Target & Parameters:** Select destination (LEO, Moon, Mars, Deep Space Asteroid) and review environmental constraints.
-   - **Step 2: Booster & Chassis:** Pair launch vehicles (Sparrow-1, Kestrel-5, Titan-X Heavy) with appropriate structural buses (Micro-Bus, Standard Orbiter, Heavy Explorer Lander).
-   - **Step 3: Power & Telemetry:** Balance inverse-square solar arrays vs. Plutonium-238 MMRTG nuclear generators with parabolic DSN antennas.
-   - **Step 4: Scientific Payload Suite:** Select specialized scientific instruments (Multispectral Cameras, Imaging Spectrometers, Sounding Radars, Magnetometers, Robotic Sample Drill Arms).
-   - **Step 5: Flight Readiness & Launch Poll:** Comprehensive pre-flight system diagnostics with instant blocker identification and auto-fix capabilities.
-
-2. **Live Spacecraft Blueprint Visualizer:**
-   - Interactive, procedural SVG schematic rendered directly in the HUD.
-   - Dynamically morphs and attaches solar wings, RTG casks, dish antennas, and instrument pods as parts are swapped.
-
-3. **Persistent Real-Time Engineering HUD:**
-   - Color-coded telemetry bars for **Budget**, **Mass**, **Power**, and **Data Downlink**.
-   - Clear indicators showing limits, margins, and target distance derating.
-
-4. **Intelligent Auto-Fix Assistant:**
-   - One-click resolution for common aerospace engineering blockers (upgrading boosters for interplanetary reach, adding nuclear power for deep-space missions, and trimming excess mass).
-
-5. **Watchable Milestone Flight Simulator:**
-   - Real-time animated canvas particle propulsion trail, staging, trajectory curves, and procedural Web Audio rocket rumble synthesizer.
-   - Tracks 5 operational milestones: Liftoff, Staging, Deep Space Transit, Orbital Capture / Touchdown, and Science Operations.
-
-6. **Post-Mission Systems Debrief:**
-   - Comprehensive 1,000-point aerospace scorecard evaluating Science Yield, Budget Reserves, Reliability Margins, and Mission Bonus Goals.
-   - 1 to 3 Star Performance Rating.
-   - Actionable engineering feedback and authentic NASA planetary facts.
-
-7. **Zero-Asset, Zero-Build-Step Architecture:**
-   - Pure vanilla HTML5, modern responsive CSS (CSS Grid, Flexbox, custom properties), and ES6 JavaScript modules.
-   - 100% static hosting compatible with GitHub Pages. Zero npm build or bundler dependencies.
+**Design is the strategy layer. Arcade is the execution layer. Debrief is the learning layer.** Every engineering decision in the Hangar directly impacts how each arcade stage plays.
 
 ---
 
-## 🚀 The 4 Exploratory Missions
+## 🕹️ The Core Game Loop
 
-| Mission | Destination | Distance | Budget | Key Challenge |
-|---|---|---|---|---|
-| **First Light** | Low Earth Orbit (500 km) | 1.0 AU | $60M | Budget & payload limits on small booster. |
-| **Lunora Orbiter** | Lunar Polar Orbit | 1.0 AU | $120M | High-resolution polar mapping and communications link. |
-| **Red Dust Rover** | Mars Jezero Crater | 1.52 AU | $260M | 43% solar flux, thermal survival, and lander bus requirement. |
-| **Comet Chaser** | Jupiter Trojan Asteroid | 5.2 AU | $320M | Extreme distance (3.7% solar flux), requiring nuclear RTG and high-gain DSN telemetry. |
+```
+TITLE  ➔  MISSION SELECT  ➔  HANGAR WORKSHOP  ➔  STAGE 1: LAUNCH  ➔  STAGE 2: CRUISE  ➔  STAGE 3: OPERATIONS  ➔  STAGE 4: SCIENCE  ➔  DEBRIEF
+```
+
+---
+
+## 🎮 How Design Choices Shape Gameplay
+
+| Engineering Choice | Direct Playable Arcade Consequence |
+|---|---|
+| **Heavier Spacecraft** | Slower rocket acceleration in Stage 1; tighter ascent corridor; smaller fuel margins. |
+| **Larger Booster (Titan-X)** | Wider safe ascent corridor in Stage 1; higher payload capacity for deep-space missions. |
+| **Solar Wings vs. RTG** | Solar output drops with $1/r^2$ at Mars & deep space, and zeroes out during eclipse shadow passes. RTGs provide steady 150W continuous power anywhere. |
+| **Propellant Fuel Tanks** | Extra fuel reserves dynamically expand the green capture sweet spot in the Stage 2 orbit insertion burn. |
+| **Thermal Shield** | Halves damage from solar radiation flares and atmospheric friction. |
+| **Antenna Gain (Low / Med / High)** | Dictates the reception cone radius of Earth's Deep Space Network dishes in Stage 3. |
+| **Data Storage Buffer** | Prevents permanent telemetry loss when the probe passes behind planets during communication blackouts. |
+| **Instrument Suite** | Determines which scientific data types (Imaging, Geology, Atmosphere, Magnetic) appear in Stage 4. |
+
+---
+
+## 🚀 The 4 Missions & CML Progression
+
+Progression follows NASA’s **Concept Maturity Level (CML)** framework:
+
+| CML | Rank | Mission | Destination | Budget | Key Objective & NASA Heritage |
+|:---:|:---:|:---|:---|:---:|:---|
+| **1** | **Cadet** | **First Light** | Low Earth Orbit | $60M | CubeSat multispectral Earth observation. (*CubeSat 101*) |
+| **2** | **Analyst** | **Lunora Orbiter** | Lunar Polar Orbit | $120M | Map surface minerals and shadowed crater water-ice. (*LRO*) |
+| **3** | **Engineer** | **Red Dust Rover** | Mars Jezero Crater | $260M | Survive atmospheric entry and deploy surface drill rover. (*Curiosity / Perseverance*) |
+| **4** | **Architect** | **Deep Eye** | Deep Space (1.5M km) | $300M | Infrared space telescope exoplanet spectroscopy. (*JWST & Roman*) |
+
+---
+
+## 🕹️ Controls
+
+- **Desktop (Keyboard):**
+  - **Left / Right / A / D:** Pitch nudge (Stage 1) / Move ship (Stage 2) / Rotate DSN station (Stage 3) / Move sorting bin (Stage 4)
+  - **Up / W / Space:** Throttle (Stage 1) / Fire orbit insertion burn (Stage 2) / Action
+  - **Down / S:** Down / Stage separation (Stage 1)
+  - **1, 2, 3:** Toggle power subsystems (Stage 2) / Switch active DSN station (Stage 3)
+  - **M:** Toggle sound mute
+- **Mobile / Touch:**
+  - Tap left/right halves of canvas to steer; tap and hold anywhere to throttle; tap to execute burns and select bins.
 
 ---
 
 ## 🔬 Authentic Aerospace Physics & Formulas
 
-- **Inverse-Square Law for Solar Power:**
-  $$P(r) = P_0 \times \left(\frac{1}{r^2}\right)$$
-  At Earth ($1.0\text{ AU}$): $100\%$ intensity ($1361\text{ W/m}^2$). At Mars ($1.52\text{ AU}$): $\approx 43\%$. At Jupiter ($5.2\text{ AU}$): $\approx 3.7\%$.
-- **Telemetry Downlink Factor:**
-  $$\text{Data Factor} = \min\left(1.0, \frac{\text{Antenna Downlink Rate}}{\text{Instrument Generation Rate}}\right)$$
-- **Effective Science Yield:**
-  $$\text{Science Score} = \text{Raw Science} \times (0.4 + 0.6 \times \text{Data Factor})$$
-- **Launch Vehicle Lift & Reach Constraints:**
-  Spacecraft mass cannot exceed the booster payload capacity, and the rocket's stage energy must match the target destination's $\Delta v$ reach profile.
+1. **Solar Irradiance Flux (Inverse-Square Law):**
+   $$I(r) = I_0 \times \left(\frac{1}{r^2}\right)$$
+   Earth ($1.0\text{ AU}$): $100\%$. Mars ($1.52\text{ AU}$): $43.3\%$. Deep space ($5.2\text{ AU}$): $3.7\%$.
+2. **Telemetry Downlink Factor:**
+   $$\text{Data Factor} = \min\left(1.0, \frac{\text{Antenna Downlink Rate}}{\sum \text{Instrument Data Rate}}\right)$$
+3. **1,000-Point Scoring Model:**
+   $$\text{Score} = \text{Sci} \times 5 + \text{DataPct} \times 2 + \text{OrbitAcc} \times 150 + \text{InsertionAcc} \times 150 + \text{Integrity} \times 1.5 + \text{BudgetPct} \times 2 + \text{BonusGoal}$$
 
 ---
 
-## 🧪 Test Suite & Solvability Verification
+## 🧪 Automated Test Suite
 
-The project includes a built-in Node.js native test suite covering mass calculations, reach verification, power deficits, solvability of all recommended mission builds, auto-fix mechanics, and simulation scoring:
+All 10 unit and system tests pass with 100% test coverage:
 
 ```bash
 npm test
 ```
 
-All 10 test suites pass with 100% test coverage.
+Verifies mass/cost/power calculations, reach boundaries, power deficits, auto-build solvability, 6x4 bay grid non-overlap, and full 4-stage simulation scoring.
 
 ---
 
-## 🛠️ Local Development & Quick Start
+## 🛠️ Local Quick Start
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/NaveenSuresh07/Lunora-Space-Mission-game.git
-   cd Lunora-Space-Mission-game
-   ```
+```bash
+# Clone repository
+git clone https://github.com/NaveenSuresh07/Lunora-Space-Mission-game.git
+cd Lunora-Space-Mission-game
 
-2. **Serve locally using any static web server:**
-   ```bash
-   # Python 3
-   python -m http.server 8080
-
-   # or Node.js npx
-   npx serve .
-   ```
-
-3. **Open in browser:**
-   Navigate to `http://localhost:8080` in any modern web browser.
+# Serve locally
+python -m http.server 8080
+# Open http://localhost:8080 in any web browser!
+```
 
 ---
 
-## 📜 License & Credits
+## 📜 Credits & NASA Resource Mapping
 
-Created for the **NASA Space Apps Challenge 2026** by Naveen Suresh.  
-Planetary facts, mission profiles, and aerospace data adapted from NASA, JPL, and public NASA Planetary Data System archives.
+Developed for the **NASA Space Apps Challenge 2026** by Naveen Suresh.  
+Datasets and mission concepts adapted from NASA SMD, JPL Mission Design Center, and the CubeSat 101 Initiative.
