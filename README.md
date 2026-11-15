@@ -1,12 +1,18 @@
-# Space Mission Design Game: Pixel Arcade v3 🛰️🕹️
+# Lunora: Space Mission Game 🛰️🕹️
 ### Bigger Screen (480×270) · Challenge-Complete · NASA Space Apps Challenge 2026
 
 > An authentic retro 16-color pixel-art arcade game where players engineer real deep-space probes and fly the missions themselves. Powered by real NASA-derived public figures, multi-role team Go/No-Go voting, orbital selection, and post-flight telemetry debriefs.
 
+[![Play Live](https://img.shields.io/badge/Play_Now-GitHub_Pages-brightgreen?style=for-the-badge&logo=github)](https://naveensuresh07.github.io/Lunora-Space-Mission-game/)
 [![PICO-8 Palette](https://img.shields.io/badge/Palette-PICO--8_16_Color-ff004d?style=for-the-badge)](https://www.lexaloffle.com/pico-8.php)
 [![Canvas Resolution](https://img.shields.io/badge/Screen-480x270_Pixelated-29adff?style=for-the-badge)](#)
 [![Fullscreen](https://img.shields.io/badge/Hotkey-F_Fullscreen-00e436?style=for-the-badge)](#)
 [![Zero Asset Dependencies](https://img.shields.io/badge/Assets-Zero_External_Files-ffa300?style=for-the-badge)](#)
+
+---
+
+### 🌐 [PLAY LIVE ONLINE HERE](https://naveensuresh07.github.io/Lunora-Space-Mission-game/)
+No installation or downloads required! Runs instantly in any desktop or mobile browser.
 
 ---
 
