@@ -73,6 +73,7 @@ All values are derived from publicly available NASA, JPL, and NIST figures (see 
 |---|---|
 | **Arrows / W, A, S, D** | Navigate menus / Fly spacecraft in Cruise / Adjust orbit speed |
 | **SPACE / ENTER** | Select / Toggle instruments / Fire retro-engine / Scan planetary targets |
+| **P** | **Apply Recommended Mission Preset** (loads a flight-ready baseline in Hangar) |
 | **F** | **Toggle Fullscreen Mode** |
 | **H** | **Open Mission Codex Handbook** (accessible anywhere) |
 | **M** | **Toggle Audio Mute** |
@@ -87,6 +88,18 @@ All values are derived from publicly available NASA, JPL, and NIST figures (see 
 * **Procedural Sprites:** Zero image files. All sprites drawn from string maps in code.
 * **Synthesized Audio:** Zero audio files. Pure Web Audio square, triangle, and noise waves.
 * **Embedded Font:** Custom 5×7 bitmapped character generator (1x labels, 2x headings).
+
+---
+
+## 🧪 Unit & Solvability Tests
+
+Run the comprehensive physics and solvability test suite:
+
+```bash
+npm test
+```
+
+Verifies Tsiolkovsky $\Delta v$, inverse-square solar irradiance, Go/No-Go validation rules, 100-point scoring, and confirms every planetary mission has valid flight paths.
 
 ---
 

@@ -1,0 +1,20 @@
+{
+  "name": "lunora-space-mission-game",
+  "version": "3.1.0",
+  "description": "Lunora: Space Mission Game for NASA Space Apps Challenge 2026",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "start": "python -m http.server 8080"
+  },
+  "keywords": [
+    "nasa",
+    "space-apps",
+    "space-mission-design",
+    "canvas",
+    "pixel-art",
+    "simulation"
+  ],
+  "author": "Naveen Suresh",
+  "license": "MIT"
+}

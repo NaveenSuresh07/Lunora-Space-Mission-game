@@ -167,15 +167,22 @@ export function makeFlightStats(state) {
   // Insertion timing zone width
   let insertionZonePct = 50;
   if (need > 0) {
-    insertionZonePct = Math.max(8, Math.min(50, Math.round(10 + 200 * (dv / need - 1))));
+    const margin = dv / need;
+    const minFloor = (state.difficulty && state.difficulty.id === 'director') ? 12 : 20;
+    // Base 35% at dv == need, reaching 50% at 1.25x margin
+    insertionZonePct = Math.max(minFloor, Math.min(50, Math.round(35 + 60 * (margin - 1))));
   }
 
-  // Scan window scaling from ADCS
+  // Scan window scaling from ADCS and difficulty
   const pointingMult = state.adcs ? (state.adcs.pointingMult || 1.0) : 1.0;
-  const scanWindow = 0.35 * pointingMult;
+  const diffScanMult = (state.difficulty && state.difficulty.scanWindowMult) ? state.difficulty.scanWindowMult : 1.0;
+  const scanWindow = 0.45 * pointingMult * diffScanMult;
 
-  // Battery coverage in eclipse
-  const batteryCover = state.battery ? (state.battery.eclipseCoverage || 0.6) : 0.6;
+  // Battery coverage in eclipse (Rookie gets auto 100% coverage)
+  let batteryCover = state.battery ? (state.battery.eclipseCoverage || 0.6) : 0.6;
+  if (state.difficulty && state.difficulty.autoSystems) {
+    batteryCover = 1.0;
+  }
 
   // Downlink rate
   const dlGb = downlinkGbPerDay(state);

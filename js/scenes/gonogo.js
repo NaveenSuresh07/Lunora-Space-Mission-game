@@ -21,11 +21,9 @@ export const gonogoScene = {
     pollResults = validate(state, state.difficulty);
     allGo = pollResults.isValid;
 
-    if (state.firstPollAttempted === undefined) {
-      state.firstPollAttempted = true;
-      if (allGo) {
-        state.allGoFirstPoll = true;
-      }
+    state.pollCount = (state.pollCount || 0) + 1;
+    if (state.pollCount === 1 && allGo) {
+      state.allGoFirstPoll = true;
     }
   },
 
@@ -66,7 +64,18 @@ export const gonogoScene = {
     // Mission Control Header
     gfx.rect(ctx, 0, 0, 480, 26, 1);
     gfx.line(ctx, 0, 26, 480, 26, 12);
-    gfx.centerText(ctx, 'FLIGHT READINESS REVIEW: GO / NO-GO CONSOLE POLL', 8, 10, 1);
+    gfx.text(ctx, 'FLIGHT READINESS: GO / NO-GO CONSOLE POLL', 15, 8, 10, 1);
+    const lName = state.launcher ? state.launcher.name : 'Booster';
+    const lRel = state.launcher ? Math.round(state.launcher.reliability * 100) : 95;
+    gfx.text(ctx, `BOOSTER: ${lRel}% RELIABILITY`, 320, 8, 11, 1);
+
+    const pc = state.playerCount || 1;
+    const playerTags = [
+      'P1',
+      pc <= 2 ? 'P1' : 'P2',
+      pc <= 2 ? 'P2' : (pc === 3 ? 'P3' : 'P3'),
+      pc <= 2 ? 'P2' : (pc === 3 ? 'P3' : 'P4')
+    ];
 
     const rolesList = [
       { key: 'planner', name: 'FLIGHT PLANNER', role: ROLES[0], verdict: pollResults.roleVerdicts.planner },
@@ -85,8 +94,9 @@ export const gonogoScene = {
       gfx.rect(ctx, 25, y, 430, 40, 1);
       gfx.rectb(ctx, 25, y, 430, 40, revealed ? (r.verdict.go ? 11 : 8) : 5);
 
-      // Icon & Role Name
-      gfx.text(ctx, `${r.role.icon} ${r.name}`, 35, y + 8, 7, 1);
+      // Icon, Player Tag & Role Name
+      const pBadge = pc > 1 ? `[${playerTags[i]}] ` : '';
+      gfx.text(ctx, `${pBadge}${r.role.icon} ${r.name}`, 35, y + 8, 7, 1);
 
       if (revealed) {
         // Verdict Badge

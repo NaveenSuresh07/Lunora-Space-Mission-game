@@ -5,6 +5,8 @@
 import { gfx } from '../core/gfx.js';
 import { input } from '../core/input.js';
 import { sfx } from '../core/audio.js';
+import { downlinkGbPerDay, dailyData } from '../model/engine.js';
+import { triggerPhaseEvent } from '../model/events.js';
 import {
   drawCompositeShip,
   drawSprite,
@@ -23,9 +25,12 @@ let packetsDelivered = 0;
 let scienceScoreTotal = 0;
 let targets = [];
 let downlinkPackets = [];
+let eclipseTimer = 0;
 let brownoutTimer = 0;
 let inBrownout = false;
+let isDimmed = false;
 let packetAccumulator = 0;
+let opsEvent = null;
 
 export const opsScene = {
   enter(state) {
@@ -36,9 +41,12 @@ export const opsScene = {
     packetsDelivered = 0;
     scienceScoreTotal = 0;
     downlinkPackets = [];
+    eclipseTimer = 0;
     brownoutTimer = 0;
     inBrownout = false;
+    isDimmed = false;
     packetAccumulator = 0;
+    opsEvent = triggerPhaseEvent('ops', state);
 
     // Generate scan targets matching installed instruments
     targets = [];
@@ -52,6 +60,16 @@ export const opsScene = {
         inst,
         angle: (i * Math.PI * 2) / 6,
         colorIdx: inst.colorIdx !== undefined ? inst.colorIdx : 10,
+        scanned: false,
+        cooldown: 0
+      });
+    }
+
+    if (opsEvent && opsEvent.id === 'science_opportunity') {
+      targets.push({
+        inst: { id: 'geyser', name: 'Cryo-Plume', science: 45, dataGbPerDay: 5, colorIdx: 11 },
+        angle: Math.PI * 0.9,
+        colorIdx: 11,
         scanned: false,
         cooldown: 0
       });
@@ -71,18 +89,44 @@ export const opsScene = {
     const normAngle = ((orbitAngle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
     const inEclipse = (normAngle > Math.PI * 0.25 && normAngle < Math.PI * 0.75);
     const batteryCover = state.flight ? state.flight.batteryCover : 0.6;
-
-    // Power Brownout
     const powerPct = (state.flight && state.flight.powerPct) ? state.flight.powerPct : 100;
-    if (powerPct < 100 || (inEclipse && batteryCover < 1.0)) {
-      brownoutTimer += dt;
-      if (!inBrownout && brownoutTimer > 7.0) {
-        inBrownout = true;
-        brownoutTimer = 0;
-        sfx.cancel();
-      } else if (inBrownout && brownoutTimer > 3.0) {
+
+    // Track continuous eclipse duration & recovery
+    if (inEclipse) {
+      eclipseTimer += dt;
+      if (batteryCover < 1.0) {
+        // Basic battery: partial strain after 2.0s, full brownout after 5.5s of continuous shadow
+        if (eclipseTimer > 5.5) {
+          if (!inBrownout) {
+            inBrownout = true;
+            sfx.cancel();
+          }
+        } else if (eclipseTimer > 2.0) {
+          isDimmed = true;
+        }
+      } else {
+        // Advanced Space Battery: full coverage throughout eclipse!
+        isDimmed = false;
+        inBrownout = false;
+      }
+    } else {
+      // In sunlight: immediately reset eclipse timer and recover from shadow brownouts!
+      eclipseTimer = 0;
+      isDimmed = false;
+      if (powerPct >= 100) {
         inBrownout = false;
         brownoutTimer = 0;
+      } else {
+        // Systemic power deficit even in sunlight:
+        brownoutTimer += dt;
+        if (!inBrownout && brownoutTimer > 5.0) {
+          inBrownout = true;
+          brownoutTimer = 0;
+          sfx.cancel();
+        } else if (inBrownout && brownoutTimer > 2.0) {
+          inBrownout = false;
+          brownoutTimer = 0;
+        }
       }
     }
 
@@ -96,7 +140,9 @@ export const opsScene = {
     }
 
     // 4. Science Scan with SPACE
-    const scanWin = (state.flight && state.flight.scanWindow) ? state.flight.scanWindow : 0.35;
+    let scanWin = (state.flight && state.flight.scanWindow) ? state.flight.scanWindow : 0.45;
+    if (isDimmed) scanWin *= 0.5;
+
     if (input.isPressed('ACTION') && !inBrownout) {
       let hitTarget = null;
       for (const t of targets) {
@@ -167,9 +213,15 @@ export const opsScene = {
 
       const minSci = state.mission ? state.mission.minScience : 40;
       const minData = state.mission ? state.mission.minDataGb : 1000;
-      const estDataGb = Math.round(packetsDelivered * (minData / 20));
+      const dlGbPerDay = downlinkGbPerDay(state);
+      const dailyGen = dailyData(state);
+      const durationDays = state.mission ? state.mission.durationDays : 180;
 
-      const missionSuccess = scienceScoreTotal >= minSci * 0.7 && estDataGb >= minData * 0.5;
+      // Realistic delivered telemetry calculation based on the probe's instruments & antenna:
+      const maxDeliverable = Math.min(dailyGen, dlGbPerDay) * durationDays;
+      const estDataGb = Math.round(packetsDelivered * (maxDeliverable / 20));
+
+      const missionSuccess = scienceScoreTotal >= minSci && estDataGb >= minData;
 
       state.flightResult = {
         success: true,
@@ -228,20 +280,43 @@ export const opsScene = {
     gfx.text(ctx, '70M DISH', 414, 20, 11, 1);
 
     // Top HUD
-    gfx.rect(ctx, 0, 0, 395, 30, 1);
+    gfx.rect(ctx, 0, 0, 395, 34, 1);
     gfx.text(ctx, `OPS TIME: ${Math.max(0, Math.ceil(opsTimer))}S`, 10, 6, 10, 1);
     gfx.text(ctx, `SCIENCE: ${scienceScoreTotal} PTS (GOAL: ${state.mission ? state.mission.minScience : 40})`, 95, 6, 11, 1);
 
     const normAngle = ((orbitAngle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+    const inEclipse = (normAngle > Math.PI * 0.25 && normAngle < Math.PI * 0.75);
     const earthFacing = (normAngle > Math.PI || normAngle < Math.PI * 0.2);
-    gfx.text(ctx, `CONTACT: ${earthFacing ? 'LINK ACTIVE (DSN)' : 'OCCULTED (BLIND)'}`, 10, 18, earthFacing ? 11 : 8, 1);
-    gfx.text(ctx, `DELIVERED: ${packetsDelivered} PKTS`, 230, 18, 7, 1);
+    gfx.text(ctx, `CONTACT: ${earthFacing ? 'LINK ACTIVE (DSN)' : 'OCCULTED (BLIND)'}`, 10, 16, earthFacing ? 11 : 8, 1);
+    gfx.text(ctx, `DELIVERED: ${packetsDelivered} PKTS`, 230, 16, 7, 1);
+
+    // Battery / Power telemetry
+    const batteryCover = state.flight ? state.flight.batteryCover : 0.6;
+    const powerPct = (state.flight && state.flight.powerPct) ? state.flight.powerPct : 100;
+    if (inEclipse) {
+      if (batteryCover >= 1.0) {
+        gfx.text(ctx, 'POWER: 100% (ADVANCED CELLS SUSTAIN SHADOW)', 10, 25, 11, 1);
+      } else if (inBrownout) {
+        const blink = Math.floor(opsTimer * 6) % 2 === 0;
+        gfx.text(ctx, blink ? 'POWER: BROWNOUT! RECOVERING IN SUNLIGHT...' : '', 10, 25, 8, 1);
+      } else if (isDimmed) {
+        gfx.text(ctx, `POWER: BATTERY STRAIN (DIM CONE: ${Math.max(0, Math.ceil(5.5 - eclipseTimer))}S)`, 10, 25, 9, 1);
+      } else {
+        gfx.text(ctx, `POWER: ECLIPSE SHADOW (${Math.max(0, Math.ceil(5.5 - eclipseTimer))}S REMAINING)`, 10, 25, 10, 1);
+      }
+    } else {
+      if (powerPct < 100) {
+        gfx.text(ctx, `POWER: DEFICIT (${powerPct}%) - GENERATOR INSUFFICIENT`, 10, 25, 8, 1);
+      } else {
+        gfx.text(ctx, 'POWER: NOMINAL (SOLAR CHARGING IN SUNLIGHT)', 10, 25, 11, 1);
+      }
+    }
 
     // Brownout Banner
     if (inBrownout) {
       const blink = Math.floor(opsTimer * 8) % 2 === 0;
-      gfx.rect(ctx, 110, 48, 260, 24, 8);
-      gfx.centerText(ctx, blink ? 'POWER BROWNOUT! SENSORS OFFLINE!' : '', 56, 10, 1);
+      gfx.rect(ctx, 110, 52, 260, 22, 8);
+      gfx.centerText(ctx, blink ? 'POWER BROWNOUT! SENSORS OFFLINE IN ECLIPSE!' : '', 58, 10, 1);
     }
 
     // Bottom Packet Buffer Bar (Y: 242)

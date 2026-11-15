@@ -55,8 +55,9 @@ export function calculateScore(state, flightResult = {}) {
   // 4. Resource Efficiency (15 pts: budget savings + on-time schedule)
   let budgetScore = 0;
   if (budget > 0) {
-    const budgetSaved = Math.max(0, Math.min(1.0, (budget - cost) / budget));
-    budgetScore = budgetSaved * 8; // max 8 pts
+    const budgetSaved = Math.max(0, (budget - cost) / budget);
+    // Saving 20% or more of program budget yields full 8 pts
+    budgetScore = Math.min(8, Math.round((budgetSaved / 0.20) * 8 * 10) / 10);
   }
   let scheduleScore = 0;
   if (schedule <= deadline) {
@@ -124,6 +125,11 @@ export function calculateScore(state, flightResult = {}) {
   if (schedule > deadline) {
     tips.push(`Schedule Overrun: Development took ${schedule} mo vs ${deadline} mo deadline. Choose parts with shorter lead times.`);
     suggestions.push({ category: 'BUS', text: 'Choose subsystems with fewer dev months' });
+  }
+
+  if (state.eventsEncountered && state.eventsEncountered.length > 0) {
+    const ev = state.eventsEncountered[0];
+    tips.push(`Flight Encounter: ${ev.name} - systems survived environmental anomaly.`);
   }
 
   if (tips.length === 0) {

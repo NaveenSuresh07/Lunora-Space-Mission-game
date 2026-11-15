@@ -121,8 +121,10 @@ export const POWER = [
   { id: 'solar_s', name: 'Solar Array S (1m²)', type: 'solar', areaM2: 1, massKg: 25, cost: 8, fixedW: 0, devMonths: 2, desc: '1 m² compact array. Light, inner planets only.' },
   { id: 'solar_m', name: 'Solar Array M (3m²)', type: 'solar', areaM2: 3, massKg: 70, cost: 20, fixedW: 0, devMonths: 3, desc: '3 m² tracking array. Excellent at 1 AU.' },
   { id: 'solar_l', name: 'Solar Array L (8m²)', type: 'solar', areaM2: 8, massKg: 160, cost: 45, fixedW: 0, devMonths: 4, desc: '8 m² deployable wings. Needed at Mars (1.52 AU).' },
+  { id: 'solar_juno', name: 'Solar Array XL (24m² Juno)', type: 'solar', areaM2: 24, massKg: 320, cost: 65, fixedW: 0, devMonths: 6, desc: 'Giant solar wings (NASA Juno heritage). ~340W at Jupiter!' },
   { id: 'rtg1', name: 'RTG MMRTG (110W)', type: 'rtg', areaM2: 0, massKg: 45, cost: 90, fixedW: 110, devMonths: 12, desc: 'Plutonium-238 MMRTG. Constant 110W anywhere.' },
-  { id: 'rtg2', name: 'Dual RTG (220W)', type: 'rtg', areaM2: 0, massKg: 90, cost: 170, fixedW: 220, devMonths: 14, desc: 'Twin nuclear RTGs. Essential for Jupiter (5.2 AU).' }
+  { id: 'rtg2', name: 'Dual RTG (240W)', type: 'rtg', areaM2: 0, massKg: 85, cost: 160, fixedW: 240, devMonths: 14, desc: 'Twin nuclear RTGs. Constant 240W deep-space output.' },
+  { id: 'rtg3', name: 'Triple RTG (340W)', type: 'rtg', areaM2: 0, massKg: 125, cost: 220, fixedW: 340, devMonths: 15, desc: 'Flagship triple RTG (Cassini-class). Powers Ion drive at Jupiter!' }
 ];
 
 export const BATTERIES = [
@@ -160,9 +162,42 @@ export const LAUNCHERS = [
 ];
 
 export const DIFFICULTIES = [
-  { id: 'rookie', name: 'ROOKIE', budgetMult: 1.3, eventChance: 0.5, autoSystems: true, desc: 'Budget x1.3, fewer events, auto Battery/ADCS.' },
-  { id: 'engineer', name: 'ENGINEER', budgetMult: 1.0, eventChance: 1.0, autoSystems: false, desc: 'Standard NASA flight values and full subsystem control.' },
-  { id: 'director', name: 'FLIGHT DIRECTOR', budgetMult: 0.8, eventChance: 1.5, autoSystems: false, desc: 'Budget x0.8, severe space weather, tightest margins.' }
+  {
+    id: 'rookie',
+    name: 'ROOKIE',
+    budgetMult: 1.3,
+    eventChance: 0.25,
+    autoSystems: true,
+    markerSpeed: 0.65,
+    minZonePct: 20,
+    spawnInterval: 2.4,
+    scanWindowMult: 1.4,
+    desc: 'Budget x1.3, slow burns, auto Battery/ADCS, fewer hazards.'
+  },
+  {
+    id: 'engineer',
+    name: 'ENGINEER',
+    budgetMult: 1.0,
+    eventChance: 0.50,
+    autoSystems: false,
+    markerSpeed: 1.0,
+    minZonePct: 20,
+    spawnInterval: 1.8,
+    scanWindowMult: 1.0,
+    desc: 'Standard NASA flight values and full manual subsystem control.'
+  },
+  {
+    id: 'director',
+    name: 'FLIGHT DIRECTOR',
+    budgetMult: 0.8,
+    eventChance: 1.0,
+    autoSystems: false,
+    markerSpeed: 1.5,
+    minZonePct: 12,
+    spawnInterval: 1.4,
+    scanWindowMult: 0.85,
+    desc: 'Budget x0.8, fast burns, severe space weather, tightest margins.'
+  }
 ];
 
 export const ROLES = [

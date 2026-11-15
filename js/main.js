@@ -37,7 +37,8 @@ export const state = {
   flight: null,
   flightResult: null,
   allGoFirstPoll: false,
-  firstPollAttempted: false
+  pollCount: 0,
+  eventsEncountered: []
 };
 
 // Scene Registry

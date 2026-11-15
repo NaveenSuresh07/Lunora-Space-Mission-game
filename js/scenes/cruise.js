@@ -5,6 +5,7 @@
 import { gfx } from '../core/gfx.js';
 import { input } from '../core/input.js';
 import { sfx } from '../core/audio.js';
+import { triggerPhaseEvent } from '../model/events.js';
 import {
   drawCompositeShip,
   drawSprite,
@@ -29,6 +30,7 @@ let spawnTimer = 0;
 let flareSpawnTimer = 0;
 let isDead = false;
 let deathTimer = 0;
+let cruiseEvent = null;
 
 export const cruiseScene = {
   enter(state) {
@@ -42,6 +44,10 @@ export const cruiseScene = {
     flare = null;
     spawnTimer = 0;
     flareSpawnTimer = 4.0;
+    cruiseEvent = triggerPhaseEvent('cruise', state);
+    if (cruiseEvent && cruiseEvent.id === 'solar_storm') {
+      flareSpawnTimer = 2.0;
+    }
 
     const mId = state.mission ? state.mission.id : 'moon';
     totalDuration = mId === 'jupiter' ? 55 : (mId === 'mars' ? 45 : 30);
@@ -103,12 +109,13 @@ export const cruiseScene = {
     }
 
     if (moved && state.flight) {
-      state.flight.fuelPct = Math.max(0, state.flight.fuelPct - 0.3 * dt);
+      state.flight.fuelPct = Math.max(10, state.flight.fuelPct - 0.4 * dt);
     }
 
-    // Hazard Spawning
+    // Hazard Spawning by difficulty
+    const spawnInterval = (state.difficulty && state.difficulty.spawnInterval) ? state.difficulty.spawnInterval : 1.8;
     spawnTimer += dt;
-    if (spawnTimer > 1.2) {
+    if (spawnTimer > spawnInterval) {
       spawnTimer = 0;
       const isMicro = Math.random() > 0.55;
       hazards.push({
@@ -122,12 +129,12 @@ export const cruiseScene = {
 
     // Solar Flare Column
     flareSpawnTimer += dt;
-    if (!flare && flareSpawnTimer > 8.0) {
+    if (!flare && flareSpawnTimer > 9.0) {
       flareSpawnTimer = 0;
       flare = {
         x: 90 + Math.random() * 260,
         width: 44,
-        warningTimer: 1.2,
+        warningTimer: 2.0,
         activeTimer: 0.9
       };
     }
@@ -144,13 +151,8 @@ export const cruiseScene = {
             gfx.shake(4, 0.2);
             gfx.spawnParticles(shipX, shipY, 20, 12, 60, 0.4);
           } else {
-            const roll = Math.random();
-            const rel = state.bus ? state.bus.reliability : 0.93;
-            if (roll > rel) {
-              this.killShip(state);
-            } else {
-              this.damageShip(state, 1);
-            }
+            const dmg = (state.bus && state.bus.id === 'small') ? 2 : 1;
+            this.damageShip(state, dmg);
           }
         }
       } else {
@@ -167,7 +169,7 @@ export const cruiseScene = {
       const radius = h.type === 'ast_med' ? 8 : (h.type === 'ast_sm' ? 5 : 4);
       const dist = Math.hypot(shipX - h.x, shipY - h.y);
 
-      if (dist < radius + 10 && invulnTimer <= 0) {
+      if (dist < radius + 6 && invulnTimer <= 0) {
         hazards.splice(i, 1);
         invulnTimer = 0.9;
         if (h.type === 'micro') {
@@ -227,10 +229,11 @@ export const cruiseScene = {
     // Solar Flare Column
     if (flare) {
       if (flare.warningTimer > 0) {
-        const blink = Math.floor(cruiseTimer * 10) % 2 === 0;
+        const blink = Math.floor(cruiseTimer * 8) % 2 === 0;
+        gfx.rectb(ctx, flare.x, 24, flare.width, 226, 8);
         if (blink) {
-          gfx.rect(ctx, flare.x, 24, flare.width, 226, 8);
-          gfx.text(ctx, 'FLARE DETECTED!', flare.x + 2, 36, 10, 1);
+          gfx.rect(ctx, flare.x, 24, flare.width, 226, 2);
+          gfx.centerText(ctx, '⚠ CORONAL MASS EJECTION INCOMING ⚠', 50, 8, 1);
         }
       } else if (flare.activeTimer > 0) {
         gfx.rect(ctx, flare.x, 24, flare.width, 226, 9);
@@ -303,7 +306,11 @@ export const cruiseScene = {
     const lightSec = state.mission ? state.mission.oneWayLightSec : 0;
     const lightStr = lightSec < 1 ? '<1s' : (lightSec < 60 ? `${lightSec}s` : `${Math.round(lightSec / 60)} min`);
 
-    gfx.text(ctx, `MISSION CONTROL LINK: DSN 70M ARRAY`, 12, 256, 10, 1);
+    if (cruiseEvent) {
+      gfx.text(ctx, `ALERT: ${cruiseEvent.name}`, 12, 256, 8, 1);
+    } else {
+      gfx.text(ctx, `MISSION CONTROL LINK: DSN 70M ARRAY`, 12, 256, 10, 1);
+    }
     gfx.text(ctx, `ONE-WAY LIGHT DELAY: ${lightStr}`, 300, 256, 14, 1);
   }
 };

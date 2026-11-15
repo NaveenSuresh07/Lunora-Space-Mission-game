@@ -115,6 +115,11 @@ export const hangarScene = {
       sceneManager.go('gonogo');
     }
 
+    // Hotkey for Preset
+    if (input.isPressed('P')) {
+      this.applyPreset(state);
+    }
+
     // Hotkey for Codex
     if (input.isPressed('H')) {
       sfx.confirm();
@@ -160,8 +165,9 @@ export const hangarScene = {
       state.propulsion = PROPULSION[idx];
     } else if (selectedCategory === 7) { // INSTRUMENTS
       instrumentSubIndex = (instrumentSubIndex + dir + INSTRUMENTS.length) % INSTRUMENTS.length;
-    } else if (selectedCategory === 8) { // FUEL
-      state.propellantKg = Math.max(0, Math.min(5000, (state.propellantKg || 0) + dir * 100));
+    } else if (selectedCategory === 8) { // FUEL (0 - 5000 kg in 250 kg increments)
+      const step = input.isDown('SHIFT') ? 1000 : 250;
+      state.propellantKg = Math.max(0, Math.min(5000, (state.propellantKg || 0) + dir * step));
     } else if (selectedCategory === 9) { // LAUNCHER
       let idx = LAUNCHERS.findIndex(l => l.id === state.launcher.id);
       idx = (idx + dir + LAUNCHERS.length) % LAUNCHERS.length;
@@ -188,6 +194,19 @@ export const hangarScene = {
     // Draw the modular composite ship
     drawCompositeShip(ctx, state, 130, 115, 2.2, false);
 
+    // Live Design Coach Bar (Y: 178)
+    const val = validate(state, state.difficulty);
+    if (!val.isValid && val.errors.length > 0) {
+      const err = val.errors[0];
+      gfx.rect(ctx, 12, 178, 241, 14, 2);
+      gfx.rectb(ctx, 12, 178, 241, 14, 8);
+      gfx.text(ctx, `COACH: ${err.toUpperCase().slice(0, 37)}`, 16, 182, 10, 1);
+    } else {
+      gfx.rect(ctx, 12, 178, 241, 14, 3);
+      gfx.rectb(ctx, 12, 178, 241, 14, 11);
+      gfx.text(ctx, 'COACH: FLIGHT-READY! ALL CONSOLES REPORT GO', 16, 182, 11, 1);
+    }
+
     // Left Bottom Specs Readout
     const dry = dryMass(state);
     const wet = wetMass(state);
@@ -196,9 +215,9 @@ export const hangarScene = {
     const pGen = powerGenerated(state);
     const pUsed = powerUsed(state);
 
-    gfx.text(ctx, `DRY: ${dry}KG   WET: ${wet}KG`, 18, 195, 7, 1);
+    gfx.text(ctx, `DRY: ${dry}KG   WET: ${wet}KG`, 18, 196, 7, 1);
     gfx.text(ctx, `DELTA-V: ${dv} / ${dvReq} KM/S`, 18, 207, dv >= dvReq ? 10 : 8, 1);
-    gfx.text(ctx, `POWER: ${pGen}W GEN / ${pUsed}W LOAD`, 18, 219, pGen >= pUsed ? 11 : 8, 1);
+    gfx.text(ctx, `POWER: ${pGen}W GEN / ${pUsed}W LOAD`, 18, 218, pGen >= pUsed ? 11 : 8, 1);
 
     // 3. Right 46% Subsystems Menu (X: 260, Y: 28, W: 210, H: 204)
     gfx.rect(ctx, 260, 28, 210, 204, 1);
@@ -245,7 +264,7 @@ export const hangarScene = {
     // 4. Bottom Control Bar (Y: 236 to 270)
     gfx.rect(ctx, 0, 236, 480, 34, 1);
     gfx.line(ctx, 0, 236, 480, 236, 5);
-    gfx.centerText(ctx, 'ARROWS: SELECT/CYCLE   SPACE: TOGGLE INST   ENTER: GO/NO-GO POLL   H: CODEX', 248, 7, 1);
+    gfx.centerText(ctx, 'ARROWS: CYCLE   SPACE: TOGGLE   P: PRESET   ENTER: POLL   H: CODEX', 248, 7, 1);
   },
 
   getActiveRole(catIdx) {
@@ -253,6 +272,56 @@ export const hangarScene = {
     if ([1, 2, 3, 6, 8].includes(catIdx)) return ROLES[1]; // ENGINEER
     if (catIdx === 7) return ROLES[2]; // SCIENTIST
     return ROLES[3]; // COMMS
+  },
+
+  applyPreset(state) {
+    const mId = state.mission ? state.mission.id : 'moon';
+    sfx.confirm();
+    if (mId === 'leo') {
+      state.orbit = ORBITS[0];
+      state.bus = BUSES[0];
+      state.power = POWER[0];
+      state.battery = BATTERIES[0];
+      state.comms = COMMS[0];
+      state.adcs = ADCS[0];
+      state.propulsion = PROPULSION[0];
+      state.instruments = [INSTRUMENTS[0]];
+      state.propellantKg = 0;
+      state.launcher = LAUNCHERS[0];
+    } else if (mId === 'moon') {
+      state.orbit = ORBITS[1];
+      state.bus = BUSES[1];
+      state.power = POWER[1];
+      state.battery = BATTERIES[0];
+      state.comms = COMMS[1];
+      state.adcs = ADCS[0];
+      state.propulsion = PROPULSION[0];
+      state.instruments = [INSTRUMENTS[0], INSTRUMENTS[1]];
+      state.propellantKg = 1750;
+      state.launcher = LAUNCHERS[1];
+    } else if (mId === 'mars') {
+      state.orbit = ORBITS[1];
+      state.bus = BUSES[1];
+      state.power = POWER[2]; // Solar L
+      state.battery = BATTERIES[1]; // Adv Battery
+      state.comms = COMMS[2]; // High Dish
+      state.adcs = ADCS[1]; // Precise
+      state.propulsion = PROPULSION[0];
+      state.instruments = [INSTRUMENTS[0], INSTRUMENTS[1], INSTRUMENTS[2]];
+      state.propellantKg = 2500;
+      state.launcher = LAUNCHERS[1];
+    } else if (mId === 'jupiter') {
+      state.orbit = ORBITS[1];
+      state.bus = BUSES[1];
+      state.power = POWER[6]; // Triple RTG (340W)
+      state.battery = BATTERIES[1];
+      state.comms = COMMS[2]; // High Dish
+      state.adcs = ADCS[1]; // Precise
+      state.propulsion = PROPULSION[0];
+      state.instruments = [INSTRUMENTS[0], INSTRUMENTS[3], INSTRUMENTS[2]];
+      state.propellantKg = 3750;
+      state.launcher = LAUNCHERS[2]; // Heavy
+    }
   },
 
   drawTopHUD(ctx, state) {
@@ -374,7 +443,7 @@ export const hangarScene = {
       gfx.text(ctx, `◄ PROPELLANT STORAGE TANK ►`, 265, y, 7, 1);
       gfx.text(ctx, `PROPELLANT MASS: ${state.propellantKg} KG`, 265, y + 11, 10, 1);
       gfx.text(ctx, `COST: $${((state.propellantKg || 0) * 0.01).toFixed(1)}M`, 265, y + 22, 6, 1);
-      gfx.text(ctx, 'LEFT/RIGHT: ADJUST PROPELLANT BY 100KG', 265, y + 33, 13, 1);
+      gfx.text(ctx, 'ARROWS: 250KG STEP (HOLD SHIFT: 1000KG)', 265, y + 33, 13, 1);
     } else if (selectedCategory === 9) {
       const l = state.launcher;
       gfx.text(ctx, `◄ ${l.name.toUpperCase()} ►`, 265, y, 7, 1);

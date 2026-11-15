@@ -183,8 +183,10 @@ Lunora features 10 fully configured subsystem categories:
 | **Solar Array S** | Solar | 1 m² | 25 kg | $8M | ~380W @ 1 AU | 2 mo | Inward planets only. Chokes past Mars. |
 | **Solar Array M** | Solar | 3 m² | 70 kg | $20M | ~1140W @ 1 AU | 3 mo | Balanced deep-space solar wings. |
 | **Solar Array L** | Solar | 8 m² | 160 kg | $45M | ~3040W @ 1 AU | 4 mo | Large deployables; needed for Mars solar flux. |
+| **Solar Array XL**| Solar | 24 m²| 320 kg | $65M | ~340W @ 5.2 AU | 6 mo | Giant Juno-heritage solar wings. Viable at Jupiter! |
 | **RTG MMRTG** | Nuclear | 0 m² | 45 kg | $90M | 110 W constant | 12 mo | Plutonium-238 decay; constant power everywhere. |
-| **Dual RTG** | Nuclear | 0 m² | 90 kg | $170M | 220 W constant | 14 mo | Essential for Jupiter (5.2 AU weak solar). |
+| **Dual RTG** | Nuclear | 0 m² | 85 kg | $160M | 240 W constant | 14 mo | Twin nuclear RTGs. 240W continuous output. |
+| **Triple RTG** | Nuclear | 0 m² | 125 kg | $220M | 340 W constant | 15 mo | Flagship Cassini-class RTG. Powers Ion drive at Jupiter. |
 
 ### 5.5. Energy Storage Batteries
 | Battery Model | Mass | Cost | Eclipse Shadow Coverage | Dev Time | Notes |
@@ -399,6 +401,7 @@ Lunora supports full keyboard navigation on desktop as well as touch interfaces 
 ### Keyboard Hotkeys:
 - `▲ / ▼ / ◄ / ►` or `W / A / S / D`: Move selection cursor / steer spacecraft in Cruise / adjust orbit velocity.
 - `SPACE` or `ENTER`: Select part / toggle instrument / fire retro-engine / scan scientific targets.
+- `P`: **Apply Recommended Mission Preset** (instantly configures a validated aerospace baseline in Hangar).
 - `F`: Toggle Fullscreen arcade mode.
 - `H`: Open Mission Codex Handbook.
 - `M`: Toggle audio mute.

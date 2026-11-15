@@ -46,18 +46,32 @@ export const RANDOM_EVENTS = {
   ops: [
     {
       id: 'component_anomaly',
-      name: 'TRANSIENT SENSOR SE)GLITCH',
+      name: 'TRANSIENT SENSOR SEU GLITCH',
       desc: 'Single Event Upset detected in instrument bus. Autonomous recovery requires Precise ADCS or ground upload lag.',
       apply(state) {
         const hasPrecise = state.adcs && state.adcs.id === 'adcs_precise';
-        return hasPrecise ? 'Precise ADCS autonomously rebooted sensor suite!' : 'Sensor offline waiting for ground command uplink!';
+        return hasPrecise
+          ? 'Precise ADCS autonomously rebooted sensor suite in 1s!'
+          : 'Sensor offline 4s waiting for Earth ground command uplink!';
       }
     },
     {
       id: 'science_opportunity',
       name: 'OPPORTUNISTIC TRANSIENT PHENOMENON',
-      desc: 'Active volcanic plume / cryogenic geyser detected! Bonus science available.',
+      desc: 'Active cryogenic geyser / volcanic plume detected! Bonus science available.',
       bonusSci: 15
     }
   ]
 };
+
+export function triggerPhaseEvent(phase, state) {
+  if (!RANDOM_EVENTS[phase]) return null;
+  const chance = (state.difficulty && state.difficulty.eventChance) ? state.difficulty.eventChance : 0.5;
+  if (Math.random() > chance) return null;
+
+  const pool = RANDOM_EVENTS[phase];
+  const ev = pool[Math.floor(Math.random() * pool.length)];
+  if (!state.eventsEncountered) state.eventsEncountered = [];
+  state.eventsEncountered.push(ev);
+  return ev;
+}

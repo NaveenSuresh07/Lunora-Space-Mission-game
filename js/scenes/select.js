@@ -58,6 +58,9 @@ export const selectScene = {
         state.mission = MISSIONS[selectedIndex];
         state.difficulty = DIFFICULTIES[difficultyIndex];
         state.playerCount = playerCount;
+        state.pollCount = 0;
+        state.allGoFirstPoll = false;
+        state.eventsEncountered = [];
         sceneManager.go('hangar');
       }
     } else if (selectMode === 'DIFFICULTY') {

@@ -4,6 +4,7 @@
 
 import { gfx } from '../core/gfx.js';
 import { sfx } from '../core/audio.js';
+import { triggerPhaseEvent } from '../model/events.js';
 import {
   drawSprite,
   SPRITE_LAUNCHPAD,
@@ -20,6 +21,7 @@ let gantryX = 210;
 let explosionFrame = 0;
 let hasRolledFailure = false;
 let failed = false;
+let launchEvent = null;
 
 export const launchScene = {
   enter(state) {
@@ -30,6 +32,10 @@ export const launchScene = {
     explosionFrame = 0;
     hasRolledFailure = false;
     failed = false;
+    launchEvent = triggerPhaseEvent('launch', state);
+    if (launchEvent && launchEvent.apply) {
+      launchEvent.apply(state);
+    }
   },
 
   update(dt, state, sceneManager) {
@@ -129,9 +135,13 @@ export const launchScene = {
 
       const count = 3 - Math.floor(timer);
       const countStr = count > 0 ? `T-MINUS 0${count}` : 'MAIN ENGINE IGNITION!';
-      gfx.rect(ctx, 140, 50, 200, 28, 1);
-      gfx.rectb(ctx, 140, 50, 200, 28, 10);
-      gfx.centerText(ctx, countStr, 59, 10, 1);
+      gfx.rect(ctx, 130, 48, 220, 30, 1);
+      gfx.rectb(ctx, 130, 48, 220, 30, 10);
+      gfx.centerText(ctx, countStr, 58, 10, 1);
+
+      if (launchEvent) {
+        gfx.centerText(ctx, `WEATHER ADVISORY: ${launchEvent.name}`, 84, 9, 1);
+      }
     } else if (phase === 'ASCENT') {
       drawSprite(ctx, SPRITE_ROCKET, 235, rocketY, 1.5);
       const flame = Math.floor(timer * 15) % 2 === 0 ? SPRITE_FLAME_1 : SPRITE_FLAME_2;
