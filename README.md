@@ -103,3 +103,4 @@ Navigate to `http://localhost:8080`.
 Built as a solo rapid build for the NASA Space Apps Challenge 2026 using Google Antigravity.
 All numbers are simplified educational game values inspired by real astrodynamics.
 Licensed under the [MIT License](LICENSE).
+
