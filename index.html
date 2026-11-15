@@ -2,48 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Lunora: Space Mission Game | Pixel Arcade v3</title>
-  <meta name="description" content="Lunora: An authentic 16-color retro pixel-art space mission design game built for NASA Space Apps Challenge 2026. Design probes, balance real physics, and fly the mission!">
-  <meta property="og:title" content="Lunora: Space Mission Game 🚀">
-  <meta property="og:description" content="Design and pilot deep-space probes across Earth, Moon, Mars, and Jupiter. Real NASA physics, 4-player team roles, and arcade flight!">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Lunora: Mission Architect | NASA Space Apps Challenge 2026</title>
+  <meta name="description" content="Lunora: Mission Architect — An accessible, interactive space mission design simulation built for the NASA Space Apps Challenge 2026. Design, balance, and fly probes to Earth orbit, the Moon, Mars, and the Outer Solar System.">
+  <meta property="og:title" content="Lunora: Mission Architect 🛰️">
+  <meta property="og:description" content="Design and simulate complete deep-space missions balancing real-world mass, budget, solar flux, and communications limits.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://naveensuresh07.github.io/Lunora-Space-Mission-game/">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Lunora: Space Mission Game 🚀">
-  <meta name="twitter:description" content="Play the retro pixel-arcade space mission simulator for NASA Space Apps Challenge 2026!">
+  <meta name="twitter:title" content="Lunora: Mission Architect 🛰️">
+  <meta name="twitter:description" content="Interactive space mission design game for NASA Space Apps Challenge 2026.">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20%220%22%20%22100%22%20%22100%22><text y=%22.9em%22 font-size=%2290%22>🛰️</text></svg>">
 </head>
 <body>
-  <!-- Arcade Cabinet Container -->
-  <div class="cabinet-container">
-    <div class="screen-bezel">
-      <!-- 480x270 Internal Canvas -->
-      <canvas id="game-canvas" width="480" height="270"></canvas>
-      <!-- CRT Scanline & Phosphor Overlay -->
-      <div class="crt-overlay" aria-hidden="true"></div>
-    </div>
-
-    <!-- On-Screen Virtual Touch Pad for Mobile Devices -->
-    <div id="touch-controls" class="touch-controls" style="display:none;" aria-label="Touch Controls">
-      <div class="dpad">
-        <button id="touch-up" class="touch-btn" aria-label="Up">▲</button>
-        <div class="dpad-mid">
-          <button id="touch-left" class="touch-btn" aria-label="Left">◄</button>
-          <button id="touch-down" class="touch-btn" aria-label="Down">▼</button>
-          <button id="touch-right" class="touch-btn" aria-label="Right">►</button>
-        </div>
-      </div>
-      <div class="action-buttons">
-        <button id="touch-a" class="touch-btn action-btn btn-a" aria-label="Action / Space">A</button>
-        <button id="touch-b" class="touch-btn action-btn btn-b" aria-label="Select / Enter">B</button>
-      </div>
+  <!-- Main Application Container -->
+  <div id="app" class="app">
+    <!-- Rendered dynamically by js/main.js -->
+    <div style="text-align: center; padding: 60px; color: #93a1c9;">
+      <h2>INITIALIZING LUNORA MISSION CONTROL...</h2>
+      <p style="margin-top: 10px;">Loading astrodynamics libraries and NASA planetary datasets.</p>
     </div>
   </div>
 
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
-
-

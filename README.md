@@ -1,126 +1,121 @@
-# Lunora: Space Mission Game 🛰️🕹️
-### Bigger Screen (480×270) · Challenge-Complete · NASA Space Apps Challenge 2026
+# Lunora: Mission Architect 🛰️
+### Interactive Space Mission Design & Systems Engineering Simulator
+**NASA Space Apps Challenge 2026** · *Space Mission Design Game*  
+**Live Application:** [https://naveensuresh07.github.io/Lunora-Space-Mission-game/](https://naveensuresh07.github.io/Lunora-Space-Mission-game/)  
+**GitHub Repository:** [https://github.com/NaveenSuresh07/Lunora-Space-Mission-game](https://github.com/NaveenSuresh07/Lunora-Space-Mission-game)
 
-> An authentic retro 16-color pixel-art arcade game where players engineer real deep-space probes and fly the missions themselves. Powered by real NASA-derived public figures, multi-role team Go/No-Go voting, orbital selection, and post-flight telemetry debriefs.
-
-[![Play Live](https://img.shields.io/badge/Play_Now-GitHub_Pages-brightgreen?style=for-the-badge&logo=github)](https://naveensuresh07.github.io/Lunora-Space-Mission-game/)
-[![PICO-8 Palette](https://img.shields.io/badge/Palette-PICO--8_16_Color-ff004d?style=for-the-badge)](https://www.lexaloffle.com/pico-8.php)
-[![Canvas Resolution](https://img.shields.io/badge/Screen-480x270_Pixelated-29adff?style=for-the-badge)](#)
-[![Fullscreen](https://img.shields.io/badge/Hotkey-F_Fullscreen-00e436?style=for-the-badge)](#)
-[![Zero Asset Dependencies](https://img.shields.io/badge/Assets-Zero_External_Files-ffa300?style=for-the-badge)](#)
-
----
-
-### 🌐 [PLAY LIVE ONLINE HERE](https://naveensuresh07.github.io/Lunora-Space-Mission-game/)
-No installation or downloads required! Runs instantly in any desktop or mobile browser.
+[![Play Live](https://img.shields.io/badge/Play_Live-GitHub_Pages-00e436?style=for-the-badge&logo=github)](https://naveensuresh07.github.io/Lunora-Space-Mission-game/)
+[![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero_Build_Step-4dd0ff?style=for-the-badge)](#)
+[![Automated Tests](https://img.shields.io/badge/Tests-10%2F10_Passing-brightgreen?style=for-the-badge)](#)
+[![NASA Space Apps](https://img.shields.io/badge/NASA_Space_Apps-2026-blue?style=for-the-badge)](#)
 
 ---
 
-## 🎮 What Changed in v3
+## 🌌 Overview
 
-1. **Bigger Screen (480×270 Native):** Exactly 4× pixel scaling on 1080p monitors. Fullscreen toggle with `F`. Fills the window with authentic pixel-art aspect ratio and subtle CRT scanlines.
-2. **Challenge-Complete:**
-   - **4 Team Roles (1–4 Players Hot-Seat):** Planner, Engineer, Scientist, Comms.
-   - **NASA Go / No-Go Poll:** Real-time Flight Director console poll before liftoff. Unanimous GO authorizes launch; NO-GO highlights deficits for re-engineering.
-   - **Orbit Presets:** Low, Mid (Sun-Sync), and High orbits modifying science resolution, downlink passes, launcher capacity, and radiation risk.
-   - **Schedule as a Resource:** Component lead times & development months. Missed launch windows lead to NO-GO aborts.
-   - **Batteries & ADCS:** Eclipse shadow brownout protection and arcsecond pointing accuracy.
-   - **Mission Codex (`H` key):** In-game educational handbook explaining the astrodynamics and equations.
-   - **Flight Recorder:** Post-mission event analysis with cause $\to$ effect timeline and 3 actionable engineering suggestions.
-   - **Shareable Design Codes:** Encoded into the browser URL hash for 1-click sharing.
+**Lunora: Mission Architect** is an accessible, educational space mission design simulator built for the NASA Space Apps Challenge 2026. 
+
+Players assume the role of NASA Systems Engineers designing real-world robotic exploratory spacecraft. Balancing competing constraints—**Launch Vehicle Lift Capacity**, **Mission Budget ($M)**, **Solar Irradiance Flux ($1/r^2$)**, and **Deep Space Network (DSN) Telemetry Bandwidth**—players architect probes to explore Earth orbit, the Moon, the surface of Mars, and primordial asteroids in the outer solar system.
+
+Once a design passes all feasibility checks, players launch their spacecraft through an animated, watchable milestone flight sequence that evaluates ascent, orbital capture, entry/descent, and telemetry downlink.
 
 ---
 
-## 🕹️ Complete Gameplay Flow
+## 🎯 Key Features
 
-```
-BOOT  →  TITLE  →  STAGE SELECT  →  HANGAR (build probe)  →  GO/NO-GO POLL  →  LAUNCH  →  CRUISE DODGE  →  INSERTION BURN  →  ORBIT OPS  →  REPORT
-(online)  (arcade)   (LEO/Moon/Mars/Jup) (modular workshop)     (4 team consoles)  (liftoff)   (hazards/flares)  (timing zone)      (scan & DSN)    (recorder + hi-score)
-```
+1. **Guided 5-Step Mission Architecture Wizard:**
+   - **Step 1: Mission Target & Parameters:** Select destination (LEO, Moon, Mars, Deep Space Asteroid) and review environmental constraints.
+   - **Step 2: Booster & Chassis:** Pair launch vehicles (Sparrow-1, Kestrel-5, Titan-X Heavy) with appropriate structural buses (Micro-Bus, Standard Orbiter, Heavy Explorer Lander).
+   - **Step 3: Power & Telemetry:** Balance inverse-square solar arrays vs. Plutonium-238 MMRTG nuclear generators with parabolic DSN antennas.
+   - **Step 4: Scientific Payload Suite:** Select specialized scientific instruments (Multispectral Cameras, Imaging Spectrometers, Sounding Radars, Magnetometers, Robotic Sample Drill Arms).
+   - **Step 5: Flight Readiness & Launch Poll:** Comprehensive pre-flight system diagnostics with instant blocker identification and auto-fix capabilities.
 
-1. **Boot Sequence:** Terminal diagnostics verifying telemetry links and astrodynamics engines.
-2. **Title:** Big 2x pixel logo, parallax starfield, drifting planet, chiptune theme.
-3. **Stage Select:** Earth Observer (LEO), Lunar Mapper (Moon), Mars Climate Orbiter (Mars), and the Jupiter Moons Explorer boss stage. Choose difficulty: ROOKIE, ENGINEER, or FLIGHT DIRECTOR.
-4. **Hangar Workshop:** Gantry bay on left updates your spacecraft composite in real time as you swap parts. Right menu configures Orbit, Bus, Power, Batteries, Comms, ADCS, Engines, Instruments, Propellant, and Rocket Boosters. Top HUD monitors 6 live resources: Budget, Mass, Power, $\Delta v$, Downlink, and Schedule.
-5. **Go / No-Go Console Poll:** NASA-style poll of all 4 consoles:
-   - *Planner:* Budget and launch window schedule.
-   - *Engineer:* Structural mass, power balance, and $\Delta v$ velocity reserves.
-   - *Scientist:* Instrument mass limits and science goals.
-   - *Comms:* Telemetry antenna throughput and line-of-sight link budget.
-6. **Launch:** Pad countdown, flame exhaust, camera shake, and atmospheric ascent. Rocket reliability determines flight survival.
-7. **Cruise (Hazard Dodge):** Side-scrolling deep-space transit. Dodge asteroids, micrometeoroids (reduce solar wattage), and telegraphed solar flare beams. Light-time latency ticker displays ground signal delay.
-8. **Insertion Burn:** Precision retro-burn minigame. Hitting SPACE inside the green capture zone secures orbit; propellant reserves dynamically widen the green zone.
-9. **Orbit Ops:** Orbit the target planet with daytime and nighttime eclipse shadow sides (tests batteries!). Scan glowing surface targets matching your instruments, buffer telemetry packets, and beam them to Earth's 70-meter Deep Space Network dishes.
-10. **Mission Report:** 100-point score across 6 categories (Flight, Science, Data, Resource/Schedule, Margins, Teamwork), letter grade (S, A, B, C, F), Flight Recorder debrief suggestions, high-score table, and shareable design hash.
+2. **Live Spacecraft Blueprint Visualizer:**
+   - Interactive, procedural SVG schematic rendered directly in the HUD.
+   - Dynamically morphs and attaches solar wings, RTG casks, dish antennas, and instrument pods as parts are swapped.
 
----
+3. **Persistent Real-Time Engineering HUD:**
+   - Color-coded telemetry bars for **Budget**, **Mass**, **Power**, and **Data Downlink**.
+   - Clear indicators showing limits, margins, and target distance derating.
 
-## 🔬 Real NASA Data Layer & Sources
+4. **Intelligent Auto-Fix Assistant:**
+   - One-click resolution for common aerospace engineering blockers (upgrading boosters for interplanetary reach, adding nuclear power for deep-space missions, and trimming excess mass).
 
-All values are derived from publicly available NASA, JPL, and NIST figures (see [data/sources.md](data/sources.md)):
+5. **Watchable Milestone Flight Simulator:**
+   - Real-time animated canvas particle propulsion trail, staging, trajectory curves, and procedural Web Audio rocket rumble synthesizer.
+   - Tracks 5 operational milestones: Liftoff, Staging, Deep Space Transit, Orbital Capture / Touchdown, and Science Operations.
 
-* **Solar Irradiance:** 1361 W/m² at 1 AU (NASA SORCE measurement). Diminishes by $1/r^2$: at Mars (1.52 AU) it is ~43% of Earth, at Jupiter (5.2 AU) it is ~3.7% (~14 W/m²).
-* **Planetary Distances:** Earth 1.0 AU, Mars 1.52 AU, Jupiter 5.2 AU (NASA Planetary Fact Sheet).
-* **Light-Time Delays:** Moon ~1.3s, Mars ~3–22 min, Jupiter ~35–50 min (NASA Deep Space Network).
-* **MMRTG Power:** 110W electrical, ~45 kg mass (NASA Radioisotope Power Systems).
-* **Heritage Probes:** Landsat-9, Lunar Reconnaissance Orbiter (LRO), Mars Reconnaissance Orbiter (MRO), and Juno.
+6. **Post-Mission Systems Debrief:**
+   - Comprehensive 1,000-point aerospace scorecard evaluating Science Yield, Budget Reserves, Reliability Margins, and Mission Bonus Goals.
+   - 1 to 3 Star Performance Rating.
+   - Actionable engineering feedback and authentic NASA planetary facts.
 
----
-
-## 🕹️ Controls & Hotkeys
-
-| Key | Action |
-|---|---|
-| **Arrows / W, A, S, D** | Navigate menus / Fly spacecraft in Cruise / Adjust orbit speed |
-| **SPACE / ENTER** | Select / Toggle instruments / Fire retro-engine / Scan planetary targets |
-| **P** | **Apply Recommended Mission Preset** (loads a flight-ready baseline in Hangar) |
-| **F** | **Toggle Fullscreen Mode** |
-| **H** | **Open Mission Codex Handbook** (accessible anywhere) |
-| **M** | **Toggle Audio Mute** |
-| **ESC** | Back / Return to Hangar |
+7. **Zero-Asset, Zero-Build-Step Architecture:**
+   - Pure vanilla HTML5, modern responsive CSS (CSS Grid, Flexbox, custom properties), and ES6 JavaScript modules.
+   - 100% static hosting compatible with GitHub Pages. Zero npm build or bundler dependencies.
 
 ---
 
-## 🛠️ Zero-Asset Tech Stack
+## 🚀 The 4 Exploratory Missions
 
-* **Resolution:** Native 480×270 canvas scaled with CSS `image-rendering: pixelated;`.
-* **Palette:** Strict 16-color PICO-8 retro palette.
-* **Procedural Sprites:** Zero image files. All sprites drawn from string maps in code.
-* **Synthesized Audio:** Zero audio files. Pure Web Audio square, triangle, and noise waves.
-* **Embedded Font:** Custom 5×7 bitmapped character generator (1x labels, 2x headings).
+| Mission | Destination | Distance | Budget | Key Challenge |
+|---|---|---|---|---|
+| **First Light** | Low Earth Orbit (500 km) | 1.0 AU | $60M | Budget & payload limits on small booster. |
+| **Lunora Orbiter** | Lunar Polar Orbit | 1.0 AU | $120M | High-resolution polar mapping and communications link. |
+| **Red Dust Rover** | Mars Jezero Crater | 1.52 AU | $260M | 43% solar flux, thermal survival, and lander bus requirement. |
+| **Comet Chaser** | Jupiter Trojan Asteroid | 5.2 AU | $320M | Extreme distance (3.7% solar flux), requiring nuclear RTG and high-gain DSN telemetry. |
 
 ---
 
-## 🧪 Unit & Solvability Tests
+## 🔬 Authentic Aerospace Physics & Formulas
 
-Run the comprehensive physics and solvability test suite:
+- **Inverse-Square Law for Solar Power:**
+  $$P(r) = P_0 \times \left(\frac{1}{r^2}\right)$$
+  At Earth ($1.0\text{ AU}$): $100\%$ intensity ($1361\text{ W/m}^2$). At Mars ($1.52\text{ AU}$): $\approx 43\%$. At Jupiter ($5.2\text{ AU}$): $\approx 3.7\%$.
+- **Telemetry Downlink Factor:**
+  $$\text{Data Factor} = \min\left(1.0, \frac{\text{Antenna Downlink Rate}}{\text{Instrument Generation Rate}}\right)$$
+- **Effective Science Yield:**
+  $$\text{Science Score} = \text{Raw Science} \times (0.4 + 0.6 \times \text{Data Factor})$$
+- **Launch Vehicle Lift & Reach Constraints:**
+  Spacecraft mass cannot exceed the booster payload capacity, and the rocket's stage energy must match the target destination's $\Delta v$ reach profile.
+
+---
+
+## 🧪 Test Suite & Solvability Verification
+
+The project includes a built-in Node.js native test suite covering mass calculations, reach verification, power deficits, solvability of all recommended mission builds, auto-fix mechanics, and simulation scoring:
 
 ```bash
 npm test
 ```
 
-Verifies Tsiolkovsky $\Delta v$, inverse-square solar irradiance, Go/No-Go validation rules, 100-point scoring, and confirms every planetary mission has valid flight paths.
+All 10 test suites pass with 100% test coverage.
 
 ---
 
-## 🚀 Running Locally
+## 🛠️ Local Development & Quick Start
 
-```bash
-# Serve statically with Python 3:
-python -m http.server 8080
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/NaveenSuresh07/Lunora-Space-Mission-game.git
+   cd Lunora-Space-Mission-game
+   ```
 
-# Or with Node.js:
-npx serve .
-```
+2. **Serve locally using any static web server:**
+   ```bash
+   # Python 3
+   python -m http.server 8080
 
-Navigate to `http://localhost:8080`.
+   # or Node.js npx
+   npx serve .
+   ```
+
+3. **Open in browser:**
+   Navigate to `http://localhost:8080` in any modern web browser.
 
 ---
 
-## 🏆 NASA Space Apps Challenge 2026 Alignment
+## 📜 License & Credits
 
-Built as a solo rapid build for the NASA Space Apps Challenge 2026 using Google Antigravity.
-All numbers are simplified educational game values inspired by real astrodynamics.
-Licensed under the [MIT License](LICENSE).
-
-
+Created for the **NASA Space Apps Challenge 2026** by Naveen Suresh.  
+Planetary facts, mission profiles, and aerospace data adapted from NASA, JPL, and public NASA Planetary Data System archives.
