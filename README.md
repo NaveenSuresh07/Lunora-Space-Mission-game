@@ -1,13 +1,26 @@
 # Lunora: Mission Control Arcade 🛰️🕹️
 ### 2D Aerospace Arcade & Systems Engineering Simulator · NASA Space Apps Challenge 2026
 
+**Team:** Voidspace · **Members:** A Naveen Suresh  
 **Live Game URL:** [https://naveensuresh07.github.io/Lunora-Space-Mission-game/](https://naveensuresh07.github.io/Lunora-Space-Mission-game/)  
-**GitHub Repository:** [https://github.com/NaveenSuresh07/Lunora-Space-Mission-game](https://github.com/NaveenSuresh07/Lunora-Space-Mission-game)
+**GitHub Repository:** [https://github.com/NaveenSuresh07/Lunora-Space-Mission-game](https://github.com/NaveenSuresh07/Lunora-Space-Mission-game)  
+**Project Slide Deck:** [Lunora_Mission_Control_Arcade_Presentation.pdf](Lunora_Mission_Control_Arcade_Presentation.pdf)
 
 [![Play Live](https://img.shields.io/badge/Play_Live-GitHub_Pages-00e436?style=for-the-badge&logo=github)](https://naveensuresh07.github.io/Lunora-Space-Mission-game/)
+[![Slide Deck PDF](https://img.shields.io/badge/Presentation-7_Slide_PDF-ff004d?style=for-the-badge&logo=adobeacrobatreader)](Lunora_Mission_Control_Arcade_Presentation.pdf)
 [![Automated Tests](https://img.shields.io/badge/Tests-10%2F10_Passing-brightgreen?style=for-the-badge)](#)
 [![Zero Build Step](https://img.shields.io/badge/Build-Zero_Asset_Dependencies-4dd0ff?style=for-the-badge)](#)
 [![NASA Space Apps](https://img.shields.io/badge/NASA_Space_Apps-2026-blue?style=for-the-badge)](#)
+
+---
+
+## 📋 Executive Project Summary
+
+> **Lunora: Mission Control Arcade** is an interactive 2D aerospace engineering game where players architect robotic space missions in a modular hangar, then fly them through the four real NASA mission segments: **Launch**, **Space**, **Ground**, and **User Delivery**.
+> 
+> Addressing the *Space Mission Design Game* challenge, Lunora transforms abstract systems engineering into playable cause-and-effect gameplay. Players balance competing constraints—booster payload, budget, inverse-square solar flux ($1/r^2$), and Deep Space Network (DSN) bandwidth—across four destination tiers (LEO, Moon, Mars, and Deep Space). Every engineering choice directly shapes flight mechanics: managing Max-Q throttle during ascent, balancing power during planetary shadow passes, buffering telemetry during occultation blackouts, and routing science data.
+> 
+> Lunora is important because it makes authentic aerospace trade-offs intuitive, exciting, and accessible to students and enthusiasts worldwide. Progression aligns with NASA’s Concept Maturity Levels (CML), delivering actionable engineering debriefs connected to real heritage missions like LRO, Curiosity, and JWST—with zero installation required.
 
 ---
 

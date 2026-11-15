@@ -3,9 +3,11 @@
 
 **Challenge:** NASA Space Apps Challenge 2026 — *Space Mission Design Game*  
 **Game Title:** Lunora: Mission Control Arcade  
+**Team:** Voidspace · **Members:** A Naveen Suresh  
 **Version:** 2.0 (Playable 2D Arcade & Systems Engineering Simulator)  
 **Live Application URL:** [https://naveensuresh07.github.io/Lunora-Space-Mission-game/](https://naveensuresh07.github.io/Lunora-Space-Mission-game/)  
 **Public Repository:** [https://github.com/NaveenSuresh07/Lunora-Space-Mission-game](https://github.com/NaveenSuresh07/Lunora-Space-Mission-game)  
+**Project Slide Deck:** [Lunora_Mission_Control_Arcade_Presentation.pdf](Lunora_Mission_Control_Arcade_Presentation.pdf)  
 **Internal Resolution:** Fixed 960×540 Logical Canvas with Dynamic Retina Scaling (`dpr`)  
 **Tech Stack:** Pure Vanilla HTML5 Canvas, Modern CSS Grid & Flexbox, ES6 Modules, Native Web Audio API, Zero External Assets/Dependencies  
 **Test Suite:** Native Node.js Test Runner (`node --test tests/*.test.js`)
