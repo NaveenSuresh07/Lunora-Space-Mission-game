@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space Mission Design Game | NASA Space Apps Challenge</title>
+  <meta name="description" content="Design, build, and simulate deep-space probes for Earth, Moon, and Mars. Balance mass, power, Δv, budget, and comms.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20%220%22%20%22100%22%20%22100%22><text y=%22.9em%22 font-size=%2290%22>🛰️</text></svg>">
+</head>
+<body>
+  <!-- Starfield background canvas -->
+  <canvas id="stars-canvas" aria-hidden="true"></canvas>
+
+  <div id="app" class="app-container">
+    <!-- Top Navigation & Sticky Meters -->
+    <header class="app-header">
+      <div class="header-top">
+        <div class="brand-group">
+          <span class="brand-logo" aria-hidden="true">🛰️</span>
+          <div>
+            <h1 class="brand-title">Space Mission Design Game</h1>
+            <p class="brand-sub">NASA Space Apps Challenge 2026 · Aerospace Systems Simulator</p>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button id="btn-how-to-play" class="btn btn-ghost btn-sm" aria-label="Open instructions and tutorial">
+            <span class="icon" aria-hidden="true">📖</span> How to Play
+          </button>
+          <button id="btn-restart" class="btn btn-ghost btn-sm" aria-label="Restart mission design">
+            <span class="icon" aria-hidden="true">🔄</span> Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- Sticky Telemetry & Engineering Meters Bar -->
+      <nav id="meters-bar" class="meters-bar" aria-label="Live Telemetry and Resource Meters">
+        <!-- Injected via ui.js -->
+      </nav>
+    </header>
+
+    <!-- Main Dynamic Screen Content Area -->
+    <main id="main-content" class="main-content" role="region" aria-live="polite">
+      <!-- Screen content dynamically mounted here by ui.js -->
+    </main>
+
+    <!-- How to Play / Tutorial Modal -->
+    <div id="tutorial-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="tutorial-title">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2 id="tutorial-title">🚀 How to Play: Systems Engineering 101</h2>
+          <button id="btn-close-tutorial" class="btn-close" aria-label="Close tutorial">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-intro">You are the lead mission architect. Every space mission is an uncompromising exercise in engineering trade-offs:</p>
+          <div class="tutorial-grid">
+            <div class="tutorial-item">
+              <div class="tut-icon">💰</div>
+              <h4>1. Budget ($M)</h4>
+              <p>Every component costs money. Spend too much and your mission is cancelled before leaving the drawing board.</p>
+            </div>
+            <div class="tutorial-item">
+              <div class="tut-icon">⚖️</div>
+              <h4>2. Mass & Rockets</h4>
+              <p>Every kilogram matters. The Tsiolkovsky Rocket Equation dictates that heavier dry mass requires exponentially more propellant to reach target velocity.</p>
+            </div>
+            <div class="tutorial-item">
+              <div class="tut-icon">☀️</div>
+              <h4>3. Inverse-Square Law</h4>
+              <p>Solar power drops with 1/distance². At Mars (1.52 AU), solar arrays generate only ~43% of their Earth output. Heavy RTGs generate constant heat and power anywhere.</p>
+            </div>
+            <div class="tutorial-item">
+              <div class="tut-icon">📡</div>
+              <h4>4. Data Downlink</h4>
+              <p>Having brilliant cameras is useless if your antenna can't beam the gigabytes back to Earth over hundreds of millions of kilometers.</p>
+            </div>
+          </div>
+          <div class="tutorial-note">
+            <strong>Note on Physics:</strong> All values are simplified game parameters inspired by real aerospace physics.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="btn-got-it" class="btn btn-primary">Understood, Let's Build</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Educational Footer -->
+    <footer class="app-footer">
+      <p>NASA Space Apps Challenge 2026 · Solo 2-Hour Rapid Build · Built with Google Antigravity</p>
+      <p class="disclaimer">All numeric values are simplified educational approximations of real astrodynamics.</p>
+    </footer>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
