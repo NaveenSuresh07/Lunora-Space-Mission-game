@@ -1,11 +1,9 @@
 # Project rules
-- Vanilla HTML5 Canvas + JavaScript ES modules. NO frameworks, NO build step, NO backend, NO external image/audio files.
-- Internal canvas 320x180, scaled by CSS with image-rendering: pixelated. Integer-scale to fit the window.
-- Strict 16-colour palette (PICO-8 style). Pixel font only. No anti-aliasing, no gradients, no rounded shapes. Turn off ctx.imageSmoothingEnabled.
-- All sprites are defined in code as arrays of strings mapped to palette indices (e.g. '.'=transparent, '1'..'f' = colours).
-- Sound = Web Audio API square/triangle/noise beeps only. Must start after first user key press.
-- Game logic in js/model/ must be pure functions (no DOM, no canvas). Scenes only call them.
-- Scene manager: each scene has enter(), update(dt), draw(ctx), onKey(key). Fixed 60fps target, use dt.
-- Keyboard first (arrows/WASD, SPACE, ENTER, ESC) plus on-screen touch buttons.
-- Keep code small and commented. Do not add features I did not ask for. Ask before changing structure.
-- Every number is a simplified game value inspired by real physics; say so on the title screen's "About".
+- Vanilla HTML5 Canvas + JS ES modules. NO frameworks, NO build step, NO backend, NO external image/audio files, works offline.
+- Internal canvas 480x270, CSS-scaled to fill the window (16:9, letterboxed), image-rendering: pixelated, ctx.imageSmoothingEnabled=false. F toggles fullscreen.
+- 16-colour PICO-8 palette only. 5x7 pixel font drawn from code (1x labels, 2x headings/numbers). No gradients, no anti-aliasing, no rounded shapes.
+- Sprites = arrays of strings mapped to palette indices, defined in code. Sound = Web Audio square/triangle/noise only, started after the first key press.
+- Game logic in js/model/ is pure (no DOM/canvas). Scenes only call it. Scene API: enter(), update(dt), draw(ctx), onKey(key).
+- Data comes from data/nasa_reference.json and js/model/data.js. Every number is a simplified game value inspired by NASA/public figures; show "Sources" in the UI.
+- Keyboard first (arrows/WASD, SPACE, ENTER, ESC) + touch buttons. Colour is never the only signal (use icons/blink/text).
+- Do not add features I did not ask for. Ask before changing the file structure. Commit-friendly small changes.

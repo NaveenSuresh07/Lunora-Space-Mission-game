@@ -1,0 +1,130 @@
+{
+  "constants": {
+    "solar_constant_1au": {
+      "value": 1361,
+      "unit": "W/m^2",
+      "source_title": "NASA SORCE Solar Total Irradiance Measurement",
+      "source_url": "https://earthobservatory.nasa.gov/features/SORCE",
+      "confidence": "official"
+    },
+    "solar_cell_efficiency": {
+      "value": 0.28,
+      "unit": "ratio",
+      "source_title": "Triple-Junction GaAs Space Solar Cell Performance",
+      "source_url": "https://ntrs.nasa.gov/",
+      "confidence": "official"
+    },
+    "standard_gravity": {
+      "value": 9.80665,
+      "unit": "m/s^2",
+      "source_title": "NIST Reference on Constants, Units, and Uncertainty",
+      "source_url": "https://physics.nist.gov/cuu/Constants/",
+      "confidence": "official"
+    },
+    "dsn_stations": {
+      "value": ["Goldstone, CA", "Madrid, Spain", "Canberra, Australia"],
+      "unit": "locations",
+      "source_title": "NASA Deep Space Network 70m Antennas",
+      "source_url": "https://eyes.nasa.gov/dsn/",
+      "confidence": "official"
+    }
+  },
+  "missions": [
+    {
+      "id": "leo",
+      "name": "Earth Observer",
+      "stage": 1,
+      "inspired_by": "Landsat-9 / Terra",
+      "sunDistanceAU": 1.0,
+      "linkLoss": 1,
+      "oneWayLightSec": 0.002,
+      "deltaVNeeded": 0.0,
+      "budget": 120,
+      "deadlineMonths": 18,
+      "durationDays": 365,
+      "minScience": 20,
+      "minDataGb": 1500,
+      "confidence": "approximate"
+    },
+    {
+      "id": "moon",
+      "name": "Lunar Mapper",
+      "stage": 2,
+      "inspired_by": "Lunar Reconnaissance Orbiter (LRO)",
+      "sunDistanceAU": 1.0,
+      "linkLoss": 40,
+      "oneWayLightSec": 1.3,
+      "deltaVNeeded": 4.0,
+      "budget": 250,
+      "deadlineMonths": 24,
+      "durationDays": 180,
+      "minScience": 40,
+      "minDataGb": 600,
+      "confidence": "approximate"
+    },
+    {
+      "id": "mars",
+      "name": "Mars Climate Orbiter",
+      "stage": 3,
+      "inspired_by": "Mars Reconnaissance Orbiter (MRO) / MAVEN",
+      "sunDistanceAU": 1.52,
+      "linkLoss": 1200,
+      "oneWayLightSec": 720,
+      "deltaVNeeded": 5.5,
+      "budget": 400,
+      "deadlineMonths": 30,
+      "durationDays": 687,
+      "minScience": 60,
+      "minDataGb": 3000,
+      "confidence": "approximate"
+    },
+    {
+      "id": "jupiter",
+      "name": "Jupiter Moons Explorer",
+      "stage": 4,
+      "inspired_by": "Juno / Europa Clipper",
+      "sunDistanceAU": 5.2,
+      "linkLoss": 4000,
+      "oneWayLightSec": 2400,
+      "deltaVNeeded": 7.0,
+      "budget": 700,
+      "deadlineMonths": 40,
+      "durationDays": 400,
+      "minScience": 40,
+      "minDataGb": 1500,
+      "confidence": "approximate"
+    }
+  ],
+  "orbits": [
+    {
+      "id": "low",
+      "name": "Low Orbit",
+      "sciMult": 1.15,
+      "downlinkMult": 0.8,
+      "capacityMult": 1.0,
+      "deltaVMod": 0.3,
+      "radChance": 0.10,
+      "desc": "Sharper imagery (+15% sci), but shorter ground station contact passes."
+    },
+    {
+      "id": "mid",
+      "name": "Mid / Sun-Sync Orbit",
+      "sciMult": 1.0,
+      "downlinkMult": 1.0,
+      "capacityMult": 0.95,
+      "deltaVMod": 0.0,
+      "radChance": 0.15,
+      "desc": "Balanced baseline. Standard lighting and orbital contact passes."
+    },
+    {
+      "id": "high",
+      "name": "High Orbit",
+      "sciMult": 0.85,
+      "downlinkMult": 1.3,
+      "capacityMult": 0.8,
+      "deltaVMod": -0.2,
+      "radChance": 0.30,
+      "desc": "Longer communication windows (+30% DL), but blurrier sensors (-15% sci) and Van Allen radiation."
+    }
+  ]
+}

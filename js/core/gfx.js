@@ -1,6 +1,6 @@
 /**
- * Space Mission Design Game: Pixel Arcade Edition
- * Graphics Engine: 16-Color PICO-8 Palette, 5x7 Bitmap Font, Particles & Shake
+ * Space Mission Design Game: Pixel Arcade v3
+ * Graphics Engine: 480x270 Canvas, 16-Color PICO-8 Palette, 5x7 Font (1x & 2x)
  */
 
 export const PALETTE = [
@@ -32,7 +32,6 @@ let shakeY = 0;
 const particles = [];
 
 // Built-in 5x7 Bitmap Font
-// Each character encoded as 5 columns of 7-bit values (MSB top)
 const FONT = {
   ' ': [0x00, 0x00, 0x00, 0x00, 0x00],
   '!': [0x00, 0x00, 0x5F, 0x00, 0x00],
@@ -168,7 +167,7 @@ export const gfx = {
 
   text(ctx, str, x, y, colIdx = 7, scale = 1) {
     ctx.fillStyle = this.palette(colIdx);
-    const upper = str.toUpperCase();
+    const upper = String(str).toUpperCase();
     let curX = Math.floor(x);
     const curY = Math.floor(y);
 
@@ -189,7 +188,7 @@ export const gfx = {
 
   centerText(ctx, str, y, colIdx = 7, scale = 1) {
     const w = this.textWidth(str, scale);
-    const x = Math.floor((320 - w) / 2);
+    const x = Math.floor((480 - w) / 2);
     this.text(ctx, str, x, y, colIdx, scale);
     return x;
   },
@@ -216,7 +215,6 @@ export const gfx = {
   },
 
   update(dt) {
-    // Update Shake
     if (shakeDuration > 0) {
       shakeDuration -= dt;
       shakeX = (Math.random() * 2 - 1) * shakeIntensity;
@@ -226,7 +224,6 @@ export const gfx = {
       shakeY = 0;
     }
 
-    // Update Particles
     for (let i = particles.length - 1; i >= 0; i--) {
       const p = particles[i];
       p.x += p.vx * dt;
@@ -246,7 +243,6 @@ export const gfx = {
   },
 
   end(ctx) {
-    // Draw Particles before restore
     for (const p of particles) {
       ctx.fillStyle = this.palette(p.color);
       ctx.fillRect(Math.floor(p.x), Math.floor(p.y), 1, 1);

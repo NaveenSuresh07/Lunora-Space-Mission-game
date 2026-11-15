@@ -1,5 +1,5 @@
 /**
- * Space Mission Design Game: Pixel Arcade Edition
+ * Space Mission Design Game: Pixel Arcade v3
  * Procedural & Text-Map Sprites (16-Color Palette)
  * Zero external asset files.
  */
@@ -111,7 +111,6 @@ export const SPRITE_LAUNCHPAD = [
   '4444444444444444'
 ];
 
-// Flame exhaust animation frames
 export const SPRITE_FLAME_1 = [
   '.99.',
   '9aa9',
@@ -130,7 +129,6 @@ export const SPRITE_FLAME_2 = [
   '...9'
 ];
 
-// Asteroids
 export const SPRITE_ASTEROID_SM = [
   '.55.',
   '5445',
@@ -169,7 +167,6 @@ export const SPRITE_MICROMETEOROID = [
   '.aa.'
 ];
 
-// 4 Explosion Animation Frames
 export const SPRITE_EXPLOSIONS = [
   [
     '..99..',
@@ -266,10 +263,26 @@ export const SPRITE_MARS = [
   '.....999999.....'
 ];
 
-/**
- * Composite Spacecraft Pixel Renderer
- * Dynamically draws the ship based on current state (bus, solar array, comms, engine, instruments)
- */
+// Jupiter (Swirling Gas Giant with Great Red Spot)
+export const SPRITE_JUPITER = [
+  '......ffffff......',
+  '....ffeeddeeff....',
+  '..ffeeddddddeeff..',
+  '.ffeeddddddddeeff.',
+  '.4444444444444444.',
+  '444444444444444444',
+  'ffeeeeeeeeeeeeffff',
+  'ffeeddd88ddeefffff',
+  'ffeedd8888deefffff',
+  'ffeeddd88ddeefffff',
+  '444444444444444444',
+  '.4444444444444444.',
+  '.ffeeddddddddeeff.',
+  '..ffeeddddddeeff..',
+  '....ffeeddeeff....',
+  '......ffffff......'
+];
+
 export function drawCompositeShip(ctx, state, x, y, scale = 1, thrusting = false) {
   const bus = state.bus ? state.bus.id : 'medium';
   const power = state.power ? state.power.id : 'solar_m';
@@ -280,94 +293,87 @@ export function drawCompositeShip(ctx, state, x, y, scale = 1, thrusting = false
   const centerX = Math.floor(x);
   const centerY = Math.floor(y);
 
-  // 1. Draw Solar Arrays / RTG Wings
+  // 1. Solar Arrays / RTG
   if (power === 'solar_s') {
-    // 1-panel wings
-    gfx.rect(ctx, centerX - 14 * scale, centerY - 2 * scale, 6 * scale, 4 * scale, 12);
-    gfx.rect(ctx, centerX + 8 * scale, centerY - 2 * scale, 6 * scale, 4 * scale, 12);
+    gfx.rect(ctx, centerX - 16 * scale, centerY - 2 * scale, 8 * scale, 5 * scale, 12);
+    gfx.rect(ctx, centerX + 9 * scale, centerY - 2 * scale, 8 * scale, 5 * scale, 12);
     gfx.line(ctx, centerX - 8 * scale, centerY, centerX - 5 * scale, centerY, 6);
     gfx.line(ctx, centerX + 5 * scale, centerY, centerX + 8 * scale, centerY, 6);
   } else if (power === 'solar_m') {
-    // 2-panel articulated wings
-    gfx.rect(ctx, centerX - 20 * scale, centerY - 4 * scale, 12 * scale, 8 * scale, 12);
-    gfx.rect(ctx, centerX + 8 * scale, centerY - 4 * scale, 12 * scale, 8 * scale, 12);
-    // Grid lines
-    gfx.line(ctx, centerX - 14 * scale, centerY - 4 * scale, centerX - 14 * scale, centerY + 3 * scale, 1);
-    gfx.line(ctx, centerX + 14 * scale, centerY - 4 * scale, centerX + 14 * scale, centerY + 3 * scale, 1);
-    gfx.line(ctx, centerX - 8 * scale, centerY, centerX - 5 * scale, centerY, 6);
-    gfx.line(ctx, centerX + 5 * scale, centerY, centerX + 8 * scale, centerY, 6);
+    gfx.rect(ctx, centerX - 24 * scale, centerY - 5 * scale, 15 * scale, 10 * scale, 12);
+    gfx.rect(ctx, centerX + 9 * scale, centerY - 5 * scale, 15 * scale, 10 * scale, 12);
+    gfx.line(ctx, centerX - 16 * scale, centerY - 5 * scale, centerX - 16 * scale, centerY + 4 * scale, 1);
+    gfx.line(ctx, centerX + 16 * scale, centerY - 5 * scale, centerX + 16 * scale, centerY + 4 * scale, 1);
+    gfx.line(ctx, centerX - 9 * scale, centerY, centerX - 5 * scale, centerY, 6);
+    gfx.line(ctx, centerX + 5 * scale, centerY, centerX + 9 * scale, centerY, 6);
   } else if (power === 'solar_l') {
-    // Massive 3-panel deployable wings
-    gfx.rect(ctx, centerX - 26 * scale, centerY - 6 * scale, 18 * scale, 12 * scale, 12);
-    gfx.rect(ctx, centerX + 8 * scale, centerY - 6 * scale, 18 * scale, 12 * scale, 12);
-    // Cells
-    gfx.line(ctx, centerX - 20 * scale, centerY - 6 * scale, centerX - 20 * scale, centerY + 5 * scale, 1);
-    gfx.line(ctx, centerX - 14 * scale, centerY - 6 * scale, centerX - 14 * scale, centerY + 5 * scale, 1);
-    gfx.line(ctx, centerX + 14 * scale, centerY - 6 * scale, centerX + 14 * scale, centerY + 5 * scale, 1);
-    gfx.line(ctx, centerX + 20 * scale, centerY - 6 * scale, centerX + 20 * scale, centerY + 5 * scale, 1);
-  } else if (power === 'rtg') {
-    // Nuclear RTG cylinder
-    gfx.rect(ctx, centerX - 14 * scale, centerY - 3 * scale, 7 * scale, 6 * scale, 5);
-    gfx.line(ctx, centerX - 14 * scale, centerY, centerX - 8 * scale, centerY, 10);
+    gfx.rect(ctx, centerX - 32 * scale, centerY - 8 * scale, 22 * scale, 16 * scale, 12);
+    gfx.rect(ctx, centerX + 10 * scale, centerY - 8 * scale, 22 * scale, 16 * scale, 12);
+    gfx.line(ctx, centerX - 24 * scale, centerY - 8 * scale, centerX - 24 * scale, centerY + 7 * scale, 1);
+    gfx.line(ctx, centerX - 16 * scale, centerY - 8 * scale, centerX - 16 * scale, centerY + 7 * scale, 1);
+    gfx.line(ctx, centerX + 17 * scale, centerY - 8 * scale, centerX + 17 * scale, centerY + 7 * scale, 1);
+    gfx.line(ctx, centerX + 24 * scale, centerY - 8 * scale, centerX + 24 * scale, centerY + 7 * scale, 1);
+  } else if (power === 'rtg1' || power === 'rtg') {
+    gfx.rect(ctx, centerX - 16 * scale, centerY - 4 * scale, 8 * scale, 8 * scale, 5);
+    gfx.line(ctx, centerX - 16 * scale, centerY, centerX - 8 * scale, centerY, 10);
+    gfx.px(ctx, centerX - 12 * scale, centerY, 8);
+  } else if (power === 'rtg2') {
+    gfx.rect(ctx, centerX - 18 * scale, centerY - 6 * scale, 9 * scale, 12 * scale, 5);
+    gfx.line(ctx, centerX - 18 * scale, centerY - 2 * scale, centerX - 8 * scale, centerY - 2 * scale, 10);
+    gfx.line(ctx, centerX - 18 * scale, centerY + 2 * scale, centerX - 8 * scale, centerY + 2 * scale, 10);
+    gfx.px(ctx, centerX - 14 * scale, centerY - 2 * scale, 8);
+    gfx.px(ctx, centerX - 14 * scale, centerY + 2 * scale, 8);
   }
 
-  // 2. Draw Bus Body
+  // 2. Bus Body
   if (bus === 'small') {
-    gfx.rect(ctx, centerX - 4 * scale, centerY - 4 * scale, 8 * scale, 8 * scale, 10);
-    gfx.rectb(ctx, centerX - 4 * scale, centerY - 4 * scale, 8 * scale, 8 * scale, 9);
-  } else if (bus === 'large') {
-    gfx.rect(ctx, centerX - 7 * scale, centerY - 7 * scale, 14 * scale, 14 * scale, 6);
-    gfx.rectb(ctx, centerX - 7 * scale, centerY - 7 * scale, 14 * scale, 14 * scale, 13);
-    // Radiation shielding pattern
-    gfx.rect(ctx, centerX - 4 * scale, centerY - 4 * scale, 8 * scale, 8 * scale, 5);
-  } else {
-    // Medium Bus
     gfx.rect(ctx, centerX - 5 * scale, centerY - 5 * scale, 10 * scale, 10 * scale, 10);
     gfx.rectb(ctx, centerX - 5 * scale, centerY - 5 * scale, 10 * scale, 10 * scale, 9);
-    gfx.px(ctx, centerX - 2 * scale, centerY - 2 * scale, 7);
+  } else if (bus === 'large') {
+    gfx.rect(ctx, centerX - 9 * scale, centerY - 9 * scale, 18 * scale, 18 * scale, 6);
+    gfx.rectb(ctx, centerX - 9 * scale, centerY - 9 * scale, 18 * scale, 18 * scale, 13);
+    gfx.rect(ctx, centerX - 5 * scale, centerY - 5 * scale, 10 * scale, 10 * scale, 5);
+  } else {
+    // Medium
+    gfx.rect(ctx, centerX - 7 * scale, centerY - 7 * scale, 14 * scale, 14 * scale, 10);
+    gfx.rectb(ctx, centerX - 7 * scale, centerY - 7 * scale, 14 * scale, 14 * scale, 9);
+    gfx.px(ctx, centerX - 3 * scale, centerY - 3 * scale, 7);
   }
 
-  // 3. Draw Comms Antenna
+  // 3. Comms Antenna
   if (comms === 'low') {
-    // Small patch antenna
-    gfx.line(ctx, centerX, centerY - 5 * scale, centerX, centerY - 9 * scale, 7);
-    gfx.px(ctx, centerX, centerY - 9 * scale, 8);
+    gfx.line(ctx, centerX, centerY - 7 * scale, centerX, centerY - 12 * scale, 7);
+    gfx.px(ctx, centerX, centerY - 12 * scale, 8);
   } else if (comms === 'medium') {
-    // Parabolic Horn Dish
-    gfx.line(ctx, centerX, centerY - 5 * scale, centerX, centerY - 8 * scale, 7);
-    gfx.circle(ctx, centerX, centerY - 9 * scale, 3 * scale, 7);
-    gfx.px(ctx, centerX, centerY - 9 * scale, 12);
+    gfx.line(ctx, centerX, centerY - 7 * scale, centerX, centerY - 11 * scale, 7);
+    gfx.circle(ctx, centerX, centerY - 12 * scale, 4 * scale, 7);
+    gfx.px(ctx, centerX, centerY - 12 * scale, 12);
   } else if (comms === 'high') {
-    // Large Steerable Dish
-    gfx.line(ctx, centerX + 1 * scale, centerY - 5 * scale, centerX + 1 * scale, centerY - 8 * scale, 7);
-    gfx.circle(ctx, centerX + 1 * scale, centerY - 10 * scale, 5 * scale, 7);
-    gfx.circle(ctx, centerX + 1 * scale, centerY - 10 * scale, 3 * scale, 1);
-    gfx.px(ctx, centerX + 1 * scale, centerY - 10 * scale, 12);
+    gfx.line(ctx, centerX + 2 * scale, centerY - 7 * scale, centerX + 2 * scale, centerY - 12 * scale, 7);
+    gfx.circle(ctx, centerX + 2 * scale, centerY - 14 * scale, 6 * scale, 7);
+    gfx.circle(ctx, centerX + 2 * scale, centerY - 14 * scale, 4 * scale, 1);
+    gfx.px(ctx, centerX + 2 * scale, centerY - 14 * scale, 12);
   }
 
-  // 4. Draw Instruments (colored sensor ports)
+  // 4. Instruments
   insts.forEach((inst, idx) => {
     const col = inst.colorIdx !== undefined ? inst.colorIdx : 11;
-    const offset = (idx - Math.floor(insts.length / 2)) * 3 * scale;
-    gfx.px(ctx, centerX + 4 * scale, centerY + offset, col);
+    const offset = (idx - Math.floor(insts.length / 2)) * 4 * scale;
+    gfx.px(ctx, centerX + 6 * scale, centerY + offset, col);
   });
 
-  // 5. Draw Propulsion Engine & Exhaust Flame
+  // 5. Propulsion Thruster
   if (prop === 'ion') {
-    // Ion thruster ring
-    gfx.rect(ctx, centerX - 7 * scale, centerY - 2 * scale, 2 * scale, 4 * scale, 12);
+    gfx.rect(ctx, centerX - 9 * scale, centerY - 3 * scale, 3 * scale, 6 * scale, 12);
     if (thrusting) {
-      // Cyan glowing plasma plume
-      gfx.circle(ctx, centerX - 10 * scale, centerY, 2 * scale, 12);
-      gfx.px(ctx, centerX - 12 * scale, centerY, 7);
+      gfx.circle(ctx, centerX - 14 * scale, centerY, 3 * scale, 12);
+      gfx.px(ctx, centerX - 16 * scale, centerY, 7);
     }
   } else {
-    // Chemical Bell Thruster
-    gfx.rect(ctx, centerX - 7 * scale, centerY - 3 * scale, 2 * scale, 6 * scale, 5);
+    gfx.rect(ctx, centerX - 9 * scale, centerY - 4 * scale, 3 * scale, 8 * scale, 5);
     if (thrusting) {
-      // Orange/Yellow fire
-      gfx.rect(ctx, centerX - 11 * scale, centerY - 2 * scale, 4 * scale, 4 * scale, 9);
-      gfx.rect(ctx, centerX - 9 * scale, centerY - 1 * scale, 3 * scale, 2 * scale, 10);
+      gfx.rect(ctx, centerX - 15 * scale, centerY - 3 * scale, 6 * scale, 6 * scale, 9);
+      gfx.rect(ctx, centerX - 12 * scale, centerY - 2 * scale, 4 * scale, 4 * scale, 10);
     }
   }
 }

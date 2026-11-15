@@ -1,11 +1,11 @@
 /**
- * Space Mission Design Game: Pixel Arcade Edition
- * Retro CRT & Arcade Cabinet CSS
+ * Space Mission Design Game: Pixel Arcade v3
+ * Retro CRT & Arcade Cabinet CSS (480x270 Scaling)
  */
 
 :root {
   --bg-black: #000000;
-  --bezel-color: #121826;
+  --bezel-color: #0d121d;
   --accent-cyan: #29ADFF;
   --accent-yellow: #FFEC27;
 }
@@ -37,7 +37,6 @@ body {
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  padding: 12px;
   position: relative;
 }
 
@@ -45,46 +44,45 @@ body {
 .screen-bezel {
   position: relative;
   background: var(--bezel-color);
-  padding: 8px;
-  border-radius: 8px;
-  box-shadow: 0 0 35px rgba(41, 173, 255, 0.2), inset 0 0 10px rgba(0, 0, 0, 0.8);
+  padding: 6px;
+  border-radius: 6px;
+  box-shadow: 0 0 40px rgba(41, 173, 255, 0.25), inset 0 0 12px rgba(0, 0, 0, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 96vw;
-  max-height: 85vh;
+  width: min(98vw, calc(96vh * 16 / 9));
+  max-width: 1440px;
 }
 
-/* 320x180 Scaled Canvas */
+/* 480x270 Scaled Canvas */
 #game-canvas {
   width: 100%;
   height: auto;
-  max-width: 960px;
   aspect-ratio: 16 / 9;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   display: block;
   background-color: #000;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 /* CRT Scanline & Phosphor Overlay */
 .crt-overlay {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  right: 8px;
-  bottom: 8px;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
   pointer-events: none;
-  border-radius: 4px;
+  border-radius: 3px;
   background: linear-gradient(
     rgba(18, 16, 16, 0) 50%,
-    rgba(0, 0, 0, 0.25) 50%
+    rgba(0, 0, 0, 0.22) 50%
   ),
   radial-gradient(
     circle at center,
-    rgba(255, 255, 255, 0) 65%,
-    rgba(0, 0, 0, 0.45) 100%
+    rgba(255, 255, 255, 0) 70%,
+    rgba(0, 0, 0, 0.4) 100%
   );
   background-size: 100% 4px, 100% 100%;
   z-index: 10;
@@ -93,7 +91,7 @@ body {
 /* Touch Controls for Mobile Devices */
 .touch-controls {
   position: absolute;
-  bottom: 14px;
+  bottom: 12px;
   left: 0;
   right: 0;
   display: flex;
@@ -115,12 +113,12 @@ body {
 }
 
 .touch-btn {
-  width: 46px;
-  height: 46px;
-  background: rgba(29, 43, 83, 0.75);
+  width: 48px;
+  height: 48px;
+  background: rgba(29, 43, 83, 0.8);
   border: 2px solid #5F574F;
   color: #FFF1E8;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: bold;
   border-radius: 8px;
   display: flex;
@@ -128,7 +126,6 @@ body {
   justify-content: center;
   touch-action: manipulation;
   cursor: pointer;
-  transition: transform 0.05s ease, background 0.05s ease;
 }
 
 .touch-btn:active, .touch-btn.active {
@@ -147,15 +144,15 @@ body {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
 }
 
 .btn-a {
-  background: rgba(0, 228, 54, 0.7);
+  background: rgba(0, 228, 54, 0.75);
   border-color: #00E436;
 }
 
 .btn-b {
-  background: rgba(255, 0, 77, 0.7);
+  background: rgba(255, 0, 77, 0.75);
   border-color: #FF004D;
 }

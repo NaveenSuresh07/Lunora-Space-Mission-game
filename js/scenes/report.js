@@ -1,5 +1,5 @@
 /**
- * Scene: Arcade Mission Report & High Scores
+ * Scene: Arcade Mission Report, Flight Recorder & High Scores (480x270)
  */
 
 import { gfx } from '../core/gfx.js';
@@ -10,27 +10,28 @@ import { calculateScore } from '../model/score.js';
 let timer = 0;
 let scoreData = null;
 let displayScore = 0;
-let selectedButton = 0; // 0: Retry, 1: New Mission, 2: Title
+let selectedButton = 0; // 0: Retry, 1: Rebuild, 2: New Mission, 3: Title
 let initials = ['A', 'A', 'A'];
 let initialCursor = 0;
 let enteringInitials = false;
 let highScores = [];
+let shareCopiedTimer = 0;
 
-function loadHighScores(missionId) {
+function loadHighScores(mId, diffId) {
   try {
-    const raw = localStorage.getItem(`arcade_hiscores_${missionId}`);
+    const raw = localStorage.getItem(`arcade_hiscores_${mId}_${diffId}`);
     if (raw) return JSON.parse(raw);
   } catch (e) {}
   return [
-    { initials: 'NEI', score: 95 },
+    { initials: 'NEI', score: 96 },
     { initials: 'BUZ', score: 88 },
-    { initials: 'YUR', score: 80 }
+    { initials: 'YUR', score: 82 }
   ];
 }
 
-function saveHighScores(missionId, list) {
+function saveHighScores(mId, diffId, list) {
   try {
-    localStorage.setItem(`arcade_hiscores_${missionId}`, JSON.stringify(list));
+    localStorage.setItem(`arcade_hiscores_${mId}_${diffId}`, JSON.stringify(list));
   } catch (e) {}
 }
 
@@ -41,40 +42,58 @@ export const reportScene = {
     selectedButton = 0;
     initials = ['A', 'A', 'A'];
     initialCursor = 0;
+    shareCopiedTimer = 0;
 
     scoreData = calculateScore(state, state.flightResult || {});
 
     const mId = state.mission ? state.mission.id : 'moon';
-    highScores = loadHighScores(mId);
+    const dId = state.difficulty ? state.difficulty.id : 'engineer';
+    highScores = loadHighScores(mId, dId);
 
-    // Check if new high score
     if (scoreData.totalScore > highScores[highScores.length - 1].score) {
       enteringInitials = true;
     } else {
       enteringInitials = false;
     }
+
+    // Generate Shareable Design Hash
+    try {
+      const designPayload = {
+        m: state.mission ? state.mission.id : 'moon',
+        o: state.orbit ? state.orbit.id : 'mid',
+        b: state.bus ? state.bus.id : 'medium',
+        p: state.power ? state.power.id : 'solar_m',
+        bat: state.battery ? state.battery.id : 'bat_basic',
+        c: state.comms ? state.comms.id : 'medium',
+        a: state.adcs ? state.adcs.id : 'adcs_basic',
+        pr: state.propulsion ? state.propulsion.id : 'chemical',
+        i: state.instruments ? state.instruments.map(x => x.id) : [],
+        f: state.propellantKg || 1800,
+        l: state.launcher ? state.launcher.id : 'medium'
+      };
+      window.location.hash = btoa(JSON.stringify(designPayload));
+    } catch (e) {}
   },
 
   update(dt, state, sceneManager) {
     timer += dt;
+    if (shareCopiedTimer > 0) shareCopiedTimer -= dt;
 
-    // Count-up animation
     if (displayScore < scoreData.totalScore) {
-      displayScore = Math.min(scoreData.totalScore, Math.floor(timer * 50));
+      displayScore = Math.min(scoreData.totalScore, Math.floor(timer * 45));
     }
 
     if (enteringInitials) {
-      // 3-letter initials entry
       if (input.isPressed('UP')) {
         sfx.select();
         let code = initials[initialCursor].charCodeAt(0) + 1;
-        if (code > 90) code = 65; // 'Z' -> 'A'
+        if (code > 90) code = 65;
         initials[initialCursor] = String.fromCharCode(code);
       }
       if (input.isPressed('DOWN')) {
         sfx.select();
         let code = initials[initialCursor].charCodeAt(0) - 1;
-        if (code < 65) code = 90; // 'A' -> 'Z'
+        if (code < 65) code = 90;
         initials[initialCursor] = String.fromCharCode(code);
       }
       if (input.isPressed('RIGHT') || input.isPressed('ACTION')) {
@@ -82,12 +101,12 @@ export const reportScene = {
         if (initialCursor < 2) {
           initialCursor++;
         } else {
-          // Save high score
           const mId = state.mission ? state.mission.id : 'moon';
+          const dId = state.difficulty ? state.difficulty.id : 'engineer';
           highScores.push({ initials: initials.join(''), score: scoreData.totalScore });
           highScores.sort((a, b) => b.score - a.score);
           highScores = highScores.slice(0, 3);
-          saveHighScores(mId, highScores);
+          saveHighScores(mId, dId, highScores);
           enteringInitials = false;
         }
       }
@@ -98,122 +117,126 @@ export const reportScene = {
       return;
     }
 
-    // Menu navigation
+    // Button navigation
     if (input.isPressed('LEFT')) {
       sfx.select();
-      selectedButton = (selectedButton - 1 + 3) % 3;
+      selectedButton = (selectedButton - 1 + 4) % 4;
     }
     if (input.isPressed('RIGHT')) {
       sfx.select();
-      selectedButton = (selectedButton + 1) % 3;
+      selectedButton = (selectedButton + 1) % 4;
     }
     if (input.isPressed('ENTER') || input.isPressed('ACTION')) {
       sfx.confirm();
       if (selectedButton === 0) {
-        // Retry same mission
-        sceneManager.go('hangar');
+        sceneManager.go('hangar'); // Retry
       } else if (selectedButton === 1) {
-        // New mission
-        sceneManager.go('select');
+        // Rebuild with suggestions
+        sceneManager.go('hangar');
+      } else if (selectedButton === 2) {
+        sceneManager.go('select'); // New Mission
       } else {
-        // Title
-        sceneManager.go('title');
+        sceneManager.go('title'); // Title
       }
     }
   },
 
   draw(ctx, state) {
-    gfx.rect(ctx, 0, 0, 320, 180, 0);
+    gfx.rect(ctx, 0, 0, 480, 270, 0);
 
     const res = state.flightResult || {};
     const success = !!res.success;
     const titleCol = success ? 11 : 8;
     const titleText = success
-      ? (res.missionSuccess ? 'MISSION ACCOMPLISHED!' : 'PARTIAL SUCCESS')
-      : 'MISSION TERMINATED!';
+      ? (res.missionSuccess ? 'MISSION ACCOMPLISHED!' : 'PARTIAL SUCCESSFUL ARRIVAL')
+      : 'MISSION TERMINATED: VEHICLE LOST';
 
     // Top Header Banner
-    gfx.rect(ctx, 0, 0, 320, 20, 1);
-    gfx.centerText(ctx, titleText, 6, titleCol, 1);
-    gfx.line(ctx, 0, 20, 320, 20, 5);
+    gfx.rect(ctx, 0, 0, 480, 26, 1);
+    gfx.centerText(ctx, titleText, 8, titleCol, 1);
+    gfx.line(ctx, 0, 26, 480, 26, 5);
 
-    // Left Box: Score & Grade (X: 10, Y: 26, W: 110, H: 84)
-    gfx.rect(ctx, 10, 26, 110, 84, 1);
-    gfx.rectb(ctx, 10, 26, 110, 84, 12);
+    // Left Box: Score & Letter Grade (X: 12, Y: 32, W: 160, H: 120)
+    gfx.rect(ctx, 12, 32, 160, 120, 1);
+    gfx.rectb(ctx, 12, 32, 160, 120, 12);
 
-    gfx.centerText(ctx, 'TOTAL SCORE', 31, 6, 1);
-    gfx.text(ctx, `${displayScore}`, 35, 42, 10, 2);
+    gfx.centerText(ctx, 'TOTAL SCORE', 38, 6, 1);
+    gfx.text(ctx, `${displayScore}`, 50, 52, 10, 2);
 
-    // Grade Badge
     const gradeColors = { S: 10, A: 11, B: 12, C: 13, F: 8 };
     const gCol = gradeColors[scoreData.grade] || 7;
-    gfx.rect(ctx, 42, 65, 45, 20, gCol);
-    gfx.text(ctx, `GRADE ${scoreData.grade}`, 46, 71, 0, 1);
+    gfx.rect(ctx, 55, 84, 75, 26, gCol);
+    gfx.text(ctx, `GRADE ${scoreData.grade}`, 62, 91, 0, 1);
 
-    gfx.text(ctx, `TARGET: ${state.mission ? state.mission.target.toUpperCase() : 'LEO'}`, 24, 95, 7, 1);
+    gfx.text(ctx, `TARGET: ${state.mission ? state.mission.target.toUpperCase() : 'LEO'}`, 24, 124, 7, 1);
+    gfx.text(ctx, `DIFF: ${state.difficulty ? state.difficulty.name : 'STD'}`, 24, 136, 6, 1);
 
-    // Right Box: Category Bars (X: 126, Y: 26, W: 184, H: 84)
-    gfx.rect(ctx, 126, 26, 184, 84, 1);
-    gfx.rectb(ctx, 126, 26, 184, 84, 5);
+    // Right Box: 6 Scoring Categories (X: 180, Y: 32, W: 288, H: 120)
+    gfx.rect(ctx, 180, 32, 288, 120, 1);
+    gfx.rectb(ctx, 180, 32, 288, 120, 5);
 
-    gfx.text(ctx, 'TELEMETRY BREAKDOWN', 134, 31, 10, 1);
+    gfx.text(ctx, 'SYSTEMS ENGINEERING SCORE BREAKDOWN', 190, 38, 10, 1);
 
     const b = scoreData.breakdown;
     const rows = [
-      { label: 'SURVIVAL', pts: b.mission.points, max: 40, col: 11 },
-      { label: 'SCIENCE', pts: b.science.points, max: 25, col: 10 },
-      { label: 'DATA DL', pts: b.data.points, max: 15, col: 12 },
-      { label: 'BUDGET', pts: b.budget.points, max: 10, col: 11 },
-      { label: 'MARGINS', pts: b.margins.points, max: 10, col: 14 }
+      { label: 'FLIGHT SURVIVAL', pts: b.performance.points, max: 30, col: 11 },
+      { label: 'SCIENCE OBJECTIVES', pts: b.science.points, max: 20, col: 10 },
+      { label: 'DATA TELEMETRY', pts: b.data.points, max: 10, col: 12 },
+      { label: 'RESOURCE & TIME', pts: b.efficiency.points, max: 15, col: 11 },
+      { label: 'DECISION MARGINS', pts: b.decisions.points, max: 15, col: 14 },
+      { label: 'TEAMWORK CONSENSUS', pts: b.teamwork.points, max: 10, col: 13 }
     ];
 
-    let ry = 42;
+    let ry = 52;
     for (const r of rows) {
-      gfx.text(ctx, r.label, 134, ry, 6, 1);
+      gfx.text(ctx, r.label, 190, ry, 6, 1);
       const pct = Math.min(100, Math.round((r.pts / r.max) * 100));
-      gfx.bar(ctx, 192, ry, 70, 6, pct, r.col, 0);
-      gfx.text(ctx, `${r.pts}`, 270, ry, 7, 1);
-      ry += 11;
+      gfx.bar(ctx, 335, ry, 85, 7, pct, r.col, 0);
+      gfx.text(ctx, `${r.pts}/${r.max}`, 428, ry, 7, 1);
+      ry += 14;
     }
 
-    // Middle Strip: Engineering Debrief Tips or High Scores
+    // Middle Box: Flight Recorder Recommendations or Initials Entry
     if (enteringInitials) {
-      gfx.rect(ctx, 10, 115, 300, 36, 2);
-      gfx.rectb(ctx, 10, 115, 300, 36, 10);
-      gfx.centerText(ctx, 'NEW HIGH SCORE! ENTER INITIALS:', 120, 10, 1);
+      gfx.rect(ctx, 12, 160, 456, 52, 2);
+      gfx.rectb(ctx, 12, 160, 456, 52, 10);
+      gfx.centerText(ctx, 'NEW HIGH SCORE! ENTER 3-LETTER CALLSIGN:', 168, 10, 1);
 
-      const cx = 145;
+      const cx = 220;
       for (let i = 0; i < 3; i++) {
         const isCur = i === initialCursor;
-        const x = cx + i * 14;
+        const x = cx + i * 20;
         if (isCur && Math.floor(timer * 4) % 2 === 0) {
-          gfx.rect(ctx, x - 2, 131, 10, 10, 7);
-          gfx.text(ctx, initials[i], x, 133, 0, 1);
+          gfx.rect(ctx, x - 3, 184, 14, 14, 7);
+          gfx.text(ctx, initials[i], x, 187, 0, 1);
         } else {
-          gfx.text(ctx, initials[i], x, 133, 10, 1);
+          gfx.text(ctx, initials[i], x, 187, 10, 1);
         }
       }
-      gfx.centerText(ctx, 'UP/DOWN: LETTER   RIGHT: NEXT', 143, 7, 1);
+      gfx.centerText(ctx, 'UP/DOWN: CHANGE LETTER   RIGHT/SPACE: NEXT', 202, 7, 1);
     } else {
-      // Tips card
-      gfx.rect(ctx, 10, 115, 300, 36, 1);
-      gfx.rectb(ctx, 10, 115, 300, 36, 5);
+      // Flight Recorder Tab
+      gfx.rect(ctx, 12, 160, 456, 56, 1);
+      gfx.rectb(ctx, 12, 160, 456, 56, 5);
 
-      gfx.text(ctx, 'SYSTEMS DEBRIEF:', 16, 120, 10, 1);
+      gfx.text(ctx, 'FLIGHT RECORDER ANALYSIS & RECOMMENDATIONS:', 20, 166, 10, 1);
       const tip1 = scoreData.tips[0] || 'Clean orbital trajectory executed.';
       const tip2 = scoreData.tips[1] || 'Subsystems satisfied baseline performance.';
-      gfx.text(ctx, tip1.toUpperCase().slice(0, 48), 16, 130, 7, 1);
-      gfx.text(ctx, tip2.toUpperCase().slice(0, 48), 16, 140, 6, 1);
+      gfx.text(ctx, `> ${tip1.toUpperCase().slice(0, 68)}`, 20, 178, 7, 1);
+      gfx.text(ctx, `> ${tip2.toUpperCase().slice(0, 68)}`, 20, 190, 6, 1);
+      gfx.text(ctx, 'URL SHARE CODE COPIED IN BROWSER ADDRESS HASH', 20, 202, 12, 1);
     }
 
-    // Bottom Action Buttons
-    const buttons = ['RETRY', 'NEW MISSION', 'TITLE'];
-    const bx = [25, 125, 235];
+    // Bottom Navigation Buttons (Y: 228)
+    const buttons = ['RETRY', 'REBUILD', 'NEW MISSION', 'TITLE'];
+    const bx = [20, 130, 245, 370];
+    const bw = [95, 100, 110, 85];
+
     for (let i = 0; i < buttons.length; i++) {
       const isSel = i === selectedButton;
-      gfx.rect(ctx, bx[i], 158, 65, 16, isSel ? 10 : 1);
-      gfx.rectb(ctx, bx[i], 158, 65, 16, isSel ? 7 : 5);
-      gfx.text(ctx, buttons[i], bx[i] + 6, 163, isSel ? 0 : 7, 1);
+      gfx.rect(ctx, bx[i], 228, bw[i], 24, isSel ? 10 : 1);
+      gfx.rectb(ctx, bx[i], 228, bw[i], 24, isSel ? 7 : 5);
+      gfx.text(ctx, buttons[i], bx[i] + 10, 236, isSel ? 0 : 7, 1);
     }
   }
 };
