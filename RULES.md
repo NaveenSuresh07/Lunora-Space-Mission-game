@@ -1,10 +1,11 @@
 # Project rules
-- Vanilla HTML/CSS/JavaScript with ES modules. NO frameworks, NO build step, NO backend, NO npm dependencies.
-- Must run by serving the folder statically (python3 -m http.server / npx serve) and on GitHub Pages.
-- Files: index.html, css/style.css, js/{main,state,data,engine,validate,simulate,score,ui}.js
-- Game logic (engine, validate, simulate, score) must be pure functions with no DOM access.
-- UI reads `state` and re-renders after every change via render().
-- Keep code simple and commented. Prefer small functions.
-- All numbers are simplified game values inspired by real physics; label them as such in the UI.
-- Dark space theme, mobile-friendly, keyboard-accessible, never rely on colour alone.
-- Do not add features I did not ask for. Ask before changing the file structure.
+- Vanilla HTML5 Canvas + JavaScript ES modules. NO frameworks, NO build step, NO backend, NO external image/audio files.
+- Internal canvas 320x180, scaled by CSS with image-rendering: pixelated. Integer-scale to fit the window.
+- Strict 16-colour palette (PICO-8 style). Pixel font only. No anti-aliasing, no gradients, no rounded shapes. Turn off ctx.imageSmoothingEnabled.
+- All sprites are defined in code as arrays of strings mapped to palette indices (e.g. '.'=transparent, '1'..'f' = colours).
+- Sound = Web Audio API square/triangle/noise beeps only. Must start after first user key press.
+- Game logic in js/model/ must be pure functions (no DOM, no canvas). Scenes only call them.
+- Scene manager: each scene has enter(), update(dt), draw(ctx), onKey(key). Fixed 60fps target, use dt.
+- Keyboard first (arrows/WASD, SPACE, ENTER, ESC) plus on-screen touch buttons.
+- Keep code small and commented. Do not add features I did not ask for. Ask before changing structure.
+- Every number is a simplified game value inspired by real physics; say so on the title screen's "About".
